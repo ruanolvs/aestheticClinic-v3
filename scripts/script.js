@@ -1,3 +1,4 @@
+// Dados dos Serviços
 const servicosData = [
     {
         categoria: "Massagens",
@@ -10,9 +11,7 @@ const servicosData = [
         categoria: "Redução de Medidas",
         itens: [
             { nome: "1 sessão", preco: "€80" },
-            { nome: "Plano 4 sessões", preco: "€300" },
-            { nome: "Plano 6 sessões", preco: "€420" },
-            { nome: "Plano 8 sessões", preco: "€520" }
+            { nome: "Plano 6 sessões", preco: "€420" }
         ]
     },
     {
@@ -20,16 +19,10 @@ const servicosData = [
         itens: [
             { nome: "1 sessão", preco: "€85" }
         ]
-    },
-    {
-        categoria: "Plano Exclusivo",
-        itens: [
-            { nome: "Abonamento Anual", preco: "€499" },
-            { nome: "Valor por sessão no plano", preco: "*€55" }
-        ]
     }
 ];
 
+// Renderizar Serviços nos Cards
 function renderizarServicos() {
     const grid = document.getElementById('grid-servicos');
     if (!grid) return;
@@ -47,13 +40,14 @@ function renderizarServicos() {
     `).join('');
 }
 
+// Lógica do FAQ (Abrir/Fechar)
 function initFaq() {
-    const faqItems = document.querySelectorAll('.faq-item');
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(question => {
         question.addEventListener('click', () => {
-            // Fecha outros abertos (opcional)
-            faqItems.forEach(other => {
+            const item = question.parentElement;
+            // Fecha outros abertos
+            document.querySelectorAll('.faq-item').forEach(other => {
                 if (other !== item) other.classList.remove('active');
             });
             item.classList.toggle('active');
@@ -61,6 +55,7 @@ function initFaq() {
     });
 }
 
+// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
     renderizarServicos();
     initFaq();

@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JV Essential Beauty | Estética Avançada</title>
+    <title>JV Essential Beauty | Estética Avançada em Amstelveen</title>
     
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="assets/jv-favicon.png">
+    
+    <meta name="description" content="JV Essential Beauty - Protocolos exclusivos de estética avançada e personalizada com Janaina Valente em Amstelveen. Agende online Limpeza de Pele, Massagens e mais.">
+    <meta name="keywords" content="estética amstelveen, janaina valente, limpeza de pele amstelveen, massagem amstelveen, jv essential beauty, micropigmentação amstelveen">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="JV Essential Beauty | Sua Melhor Versão em Amstelveen">
+    <meta property="og:description" content="Estética avançada e protocolos personalizados com Janaina Valente. Agende sua consulta!">
+    <meta property="og:image" content="https://jv-essentialbeauty.netlify.app/assets/og-image.jpg"> <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -14,13 +22,7 @@
         <nav class="container">
             <div class="logo">JV <span>Essential Beauty</span></div>
             
-            <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
-
-            <ul class="nav-links" id="nav-links">
+            <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#servicos">Serviços</a></li>
                 <li><a href="#faq">FAQ</a></li>
@@ -32,10 +34,12 @@
 
     <main>
         <section id="home" class="hero">
-            <div class="hero-content">
+            <div class="hero-content container">
                 <h1>Sua melhor versão começa aqui</h1>
-                <p>Procedimentos personalizados em Amstelveen.</p>
-                <a href="#servicos" class="cta-button">Ver Procedimentos</a>
+                <p>Procedimentos personalizados e avançados em Amstelveen.</p>
+                <div class="hero-btns">
+                    <a href="#servicos" class="cta-button">Ver Procedimentos</a>
+                </div>
             </div>
         </section>
 
@@ -47,19 +51,19 @@
         </section>
 
         <section id="faq" class="container section-padding">
-            <h2 class="section-title">Perguntas Frequentes</h2>
+            <h2 class="section-title">Perguntas Frequentes (FAQ)</h2>
             <div class="faq-container">
                 <div class="faq-item">
                     <button class="faq-question">Como funciona a reserva de 50%? <i class="fas fa-chevron-down"></i></button>
-                    <div class="faq-answer"><p>Para garantir seu horário, solicitamos um depósito de 50% do valor do procedimento via Tikkie. O restante é pago no dia do atendimento.</p></div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question">Quais as formas de pagamento aceitas? <i class="fas fa-chevron-down"></i></button>
-                    <div class="faq-answer"><p>Aceitamos pagamentos via Tikkie, transferência bancária ou dinheiro.</p></div>
+                    <div class="faq-answer"><p>Solicitamos um depósito de 50% antecipado via Tikkie para garantir seu horário. O restante é pago no dia do atendimento.</p></div>
                 </div>
                 <div class="faq-item">
                     <button class="faq-question">Onde a clínica está localizada? <i class="fas fa-chevron-down"></i></button>
-                    <div class="faq-answer"><p>Estamos localizados na Rembrandtweg 39, Amstelveen. Estacionamento gratuito disponível nas proximidades.</p></div>
+                    <div class="faq-answer"><p>Estamos localizados na Rembrandtweg 39, Amstelveen. Estacionamento gratuito disponível.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Quais formas de pagamento vocês aceitam? <i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>Aceitamos Tikkie, transferência bancária e dinheiro.</p></div>
                 </div>
             </div>
         </section>
@@ -72,9 +76,9 @@
                 <div class="sobre-texto">
                     <span class="subtitle">ESPECIALISTA EM ESTÉTICA AVANÇADA</span>
                     <h2>Janaina Valente</h2>
-                    <p>Especialista em estética avançada, Janaina Valente une ciência e cuidado para realçar a autoestima e o bem-estar de cada cliente.</p>
-                    <p>Com protocolos exclusivos na JV Essential Beauty, cada atendimento é planejado para entregar resultados reais, respeitando a individualidade e a beleza natural.</p>
-                    <a href="https://wa.me/31685580076" class="cta-button-light">Conversar com Janaina</a>
+                    <p>Cuidado e ciência para realçar sua beleza natural e autoestima em um ambiente exclusivo.</p>
+                    <p>Com protocolos exclusivos na JV Essential Beauty, cada atendimento é planejado para entregar resultados reais.</p>
+                    <a href="https://wa.me/31685580076" class="cta-button-light">Conversar no WhatsApp</a>
                 </div>
             </div>
         </section>
@@ -82,8 +86,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 JV Essential Beauty. Todos os direitos reservados.</p>
-            <p>Rembrandtweg 39, Amstelveen</p>
+            <p>&copy; 2026 JV Essential Beauty. Rembrandtweg 39, Amstelveen.</p>
         </div>
     </footer>
 
