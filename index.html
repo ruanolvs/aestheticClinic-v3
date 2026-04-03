@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JV Essential Beauty | Estética Avançada</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">JV <span>Essential Beauty</span></div>
+            
+            <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="https://wa.me/31685580076" class="btn-agendar">Agendar Agora</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Sua melhor versão começa aqui</h1>
+                <p>Procedimentos personalizados em Amstelveen.</p>
+                <a href="#servicos" class="cta-button">Ver Procedimentos</a>
+            </div>
+        </section>
+
+        <section id="servicos" class="container section-padding">
+            <h2 class="section-title">Nossos Serviços</h2>
+            <div class="grid-servicos" id="grid-servicos">
+                </div>
+            <p class="obs-reserva">* Reserva de 50% via Tikkie para agendamento.</p>
+        </section>
+
+        <section id="faq" class="container section-padding">
+            <h2 class="section-title">Perguntas Frequentes</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">Como funciona a reserva de 50%? <i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>Para garantir seu horário, solicitamos um depósito de 50% do valor do procedimento via Tikkie. O restante é pago no dia do atendimento.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Quais as formas de pagamento aceitas? <i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>Aceitamos pagamentos via Tikkie, transferência bancária ou dinheiro.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Onde a clínica está localizada? <i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>Estamos localizados na Rembrandtweg 39, Amstelveen. Estacionamento gratuito disponível nas proximidades.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sobre" class="sobre-mim section-padding">
+            <div class="container sobre-content">
+                <div class="sobre-foto">
+                    <img src="assets/janaina.jpg" alt="Janaina Valente">
+                </div>
+                <div class="sobre-texto">
+                    <span class="subtitle">ESPECIALISTA EM ESTÉTICA AVANÇADA</span>
+                    <h2>Janaina Valente</h2>
+                    <p>Especialista em estética avançada, Janaina Valente une ciência e cuidado para realçar a autoestima e o bem-estar de cada cliente.</p>
+                    <p>Com protocolos exclusivos na JV Essential Beauty, cada atendimento é planejado para entregar resultados reais, respeitando a individualidade e a beleza natural.</p>
+                    <a href="https://wa.me/31685580076" class="cta-button-light">Conversar com Janaina</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 JV Essential Beauty. Todos os direitos reservados.</p>
+            <p>Rembrandtweg 39, Amstelveen</p>
+        </div>
+    </footer>
+
+    <button class="bot-trigger" onclick="window.open('https://wa.me/31685580076')" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </button>
+
+    <script src="scripts/script.js"></script>
+</body>
+</html>
