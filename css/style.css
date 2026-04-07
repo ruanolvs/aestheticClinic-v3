@@ -1,23 +1,25 @@
-/* JV Essential Beauty - Style v2.0 */
+/* JV Essential Beauty - Style v5.0 (Com Animações e Foco na Cintura) */
 
 :root {
-    --primary: #c9a07c; /* O bege dourado da Janaina */
+    --primary: #c9a07c;
     --primary-light: #f4ece6;
     --secondary: #2d2d2d;
     --bg: #fffafa;
     --white: #ffffff;
-    --shadow: 0 10px 30px rgba(0,0,0,0.05);
-    --transition: 0.3s ease;
+    --shadow: 0 4px 15px rgba(0,0,0,0.05);
+    --transition-fast: 0.3s ease;
+    --transition-slow: 0.6s ease;
 }
 
+/* Reset e Configurações Globais */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--secondary); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--secondary); line-height: 1.6; overflow-x: hidden; }
 
 h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
-.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-.section-padding { padding: 100px 0; }
-.section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.section-padding { padding: 80px 0; }
+.section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; color: var(--secondary); }
 
 /* Header & Nav */
 header { background: white; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
@@ -25,55 +27,96 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .logo { font-size: 1.5rem; font-weight: bold; }
 .logo span { color: var(--primary); font-weight: 400; }
 .nav-links { display: flex; list-style: none; gap: 25px; align-items: center; }
-.nav-links a { text-decoration: none; color: var(--secondary); font-weight: 500; font-size: 0.95rem; }
-.btn-agendar { background: var(--primary); color: white !important; padding: 10px 20px; border-radius: 8px; transition: var(--transition); }
-.btn-agendar:hover { background: #b38d6a; transform: translateY(-2px); }
+.nav-links a { text-decoration: none; color: var(--secondary); font-weight: 500; font-size: 0.9rem; transition: var(--transition-fast); }
+.nav-links a:hover { color: var(--primary); }
+.btn-agendar { background: var(--primary); color: white !important; padding: 10px 20px; border-radius: 5px; }
 
-/* Seção Hero - Imagem Aprovada */
+/* Hero Section */
 .hero { 
-    height: 85vh;
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1560750588-73207b1ef5b8?q=80&w=2070') center/cover no-repeat;
-    display: flex; align-items: center; justify-content: center; text-align: center; color: white;
-    padding-top: 80px; /* Compensa o header fixo */
+    height: 90vh;
+    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), 
+                url('../assets/images/fotoClinica.jpeg') center/cover no-repeat;
+    display: flex; align-items: center; justify-content: flex-start;
 }
-.hero-content h1 { font-size: clamp(2rem, 5vw, 4rem); margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
-.hero-content p { font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9; }
-.cta-button { padding: 15px 40px; background: var(--primary); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; transition: var(--transition); border: 2px solid transparent; }
-.cta-button:hover { background: transparent; border-color: var(--primary); color: var(--primary); }
+.hero-content { max-width: 650px; color: white; padding-left: 5%; }
+.hero-content h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.1; margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
+.hero-content p { font-size: 1.2rem; margin-bottom: 30px; text-shadow: 1px 1px 5px rgba(0,0,0,0.5); }
+.cta-button { padding: 15px 40px; background: var(--primary); color: white; text-decoration: none; border-radius: 5px; font-weight: 600; display: inline-block; transition: var(--transition-fast); }
+.cta-button:hover { background: #b38d6a; transform: translateY(-2px); }
 
 /* Serviços */
 .grid-servicos { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-.card { background: white; padding: 35px; border-radius: 15px; box-shadow: var(--shadow); border-top: 4px solid var(--primary); transition: var(--transition); }
-.card:hover { transform: translateY(-5px); }
-.card h3 { color: var(--primary); margin-bottom: 20px; font-size: 1.6rem; text-align: center; }
-.service-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #f0f0f0; }
-.obs-reserva { text-align: center; margin-top: 30px; font-style: italic; font-size: 0.9rem; color: #777; }
+.card { background: white; padding: 35px; border-radius: 15px; box-shadow: var(--shadow); border-top: 4px solid var(--primary); transition: var(--transition-slow); }
+.card:hover { transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.card h3 { color: var(--primary); margin-bottom: 20px; text-align: center; }
+.service-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #f0f0f0; transition: background 0.2s; }
+.service-item:hover { background: #fffcf8; }
+
+/* Resultados (Antes e Depois) - FOCO MÁXIMO NA CINTURA */
+.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+.result-image-container { position: relative; background: white; padding: 12px; border-radius: 15px; box-shadow: var(--shadow); overflow: hidden; }
+.result-image { 
+    width: 100%; 
+    height: 680px; /* ALTURA AUMENTADA para mostrar bem flancos e cintura */
+    object-fit: cover; 
+    object-position: center 35%; /* AJUSTE CRUCIAL: Mantém o foco no terço superior, preservando a cintura */
+    border-radius: 10px; 
+    display: block;
+    transition: transform var(--transition-slow);
+}
+.result-image-container:hover .result-image { transform: scale(1.05); } /* Animação zoom ao passar o mouse */
+.label-result { position: absolute; top: 25px; left: 25px; background: rgba(0,0,0,0.7); color: white; padding: 6px 18px; border-radius: 20px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; z-index: 10; }
 
 /* FAQ Estilizado */
-.faq-container { max-width: 800px; margin: 0 auto; }
-.faq-item { background: white; margin-bottom: 15px; border-radius: 10px; box-shadow: var(--shadow); transition: var(--transition); }
-.faq-question { width: 100%; padding: 20px; border: none; background: none; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1rem; color: var(--secondary); text-align: left; }
-.faq-question i { transition: transform 0.3s; color: var(--primary); }
-.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; padding: 0 20px; }
-.faq-answer p { padding-bottom: 20px; color: #666; font-size: 0.95rem; }
-.faq-item.active .faq-answer { max-height: 200px; /* Aumente se o texto for maior */ }
-.faq-item.active .faq-question i { transform: rotate(180deg); }
+.faq-container { max-width: 900px; margin: 0 auto; }
+.faq-item { background: white; margin-bottom: 15px; border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; transition: box-shadow var(--transition-fast); }
+.faq-item:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.faq-question { width: 100%; padding: 25px; border: none; background: none; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: 'Poppins'; font-weight: 600; font-size: 1.05rem; color: var(--secondary); text-align: left; }
+.faq-question i { color: var(--primary); transition: transform 0.4s, color 0.3s; font-size: 0.8rem; }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; padding: 0 25px; background: white; }
+.faq-answer p { padding-bottom: 25px; color: #666; }
+.faq-item.active { border: 1px solid rgba(201, 160, 124, 0.3); }
+.faq-item.active .faq-answer { max-height: 250px; }
+.faq-item.active .faq-question i { transform: rotate(180deg); color: var(--secondary); }
 
-/* Sobre */
-.sobre-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; align-items: center; }
-.sobre-foto img { width: 100%; border-radius: 20px; box-shadow: -15px 15px 0 var(--primary-light); }
-.subtitle { color: var(--primary); font-size: 0.8rem; letter-spacing: 2px; font-weight: 600; text-transform: uppercase; }
-.sobre-texto h2 { font-size: 2.8rem; margin: 10px 0 20px; }
-.sobre-texto p { margin-bottom: 20px; color: #555; }
-.cta-button-light { display: inline-block; padding: 12px 30px; border: 2px solid var(--primary); color: var(--primary); text-decoration: none; border-radius: 30px; margin-top: 20px; font-weight: 600; transition: var(--transition); }
-.cta-button-light:hover { background: var(--primary); color: white; }
+/* Seção Sobre - Correção de Enquadramento */
+.sobre-mim { background: white; }
+.sobre-grid { display: flex; align-items: stretch; flex-wrap: wrap; }
+.sobre-img-container { flex: 1; min-width: 400px; overflow: hidden; }
+.janaina-foto { width: 100%; height: 100%; min-height: 600px; object-fit: cover; object-position: top; display: block; }
+.sobre-text-container { flex: 1; min-width: 400px; padding: 80px 8%; display: flex; flex-direction: column; justify-content: center; }
+.subtitle { color: var(--primary); font-size: 0.85rem; letter-spacing: 2px; font-weight: 600; text-transform: uppercase; }
+.sobre-text-container h2 { font-size: 3.5rem; margin: 15px 0 25px; line-height: 1.1; }
+.sobre-text-container p { color: #555; margin-bottom: 20px; font-size: 1.05rem; }
+.cta-button-light { display: inline-block; padding: 15px 40px; border: 2px solid var(--primary); color: var(--primary); text-decoration: none; border-radius: 40px; font-weight: 600; transition: var(--transition-fast); text-align: center; }
+.cta-button-light:hover { background: var(--primary); color: white; transform: translateY(-2px); }
 
 /* Footer & WhatsApp */
-footer { text-align: center; padding: 40px 0; background: #fff; border-top: 1px solid #eee; font-size: 0.9rem; color: #888; }
-.bot-trigger { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: #25d366; color: white; border-radius: 50%; border: none; font-size: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; z-index: 1000; transition: var(--transition); }
-.bot-trigger:hover { transform: scale(1.1); }
+footer { text-align: center; padding: 40px 0; background: white; border-top: 1px solid #eee; color: #888; font-size: 0.9rem; }
+.bot-trigger { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background: #25d366; color: white; border-radius: 50%; border: none; font-size: 30px; cursor: pointer; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: var(--transition-fast); display: flex; align-items: center; justify-content: center; animation: pulseWpp 2s infinite; }
+.bot-trigger:hover { transform: scale(1.1) rotate(5deg); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+
+/* Animação Pulsação no WhatsApp */
+@keyframes pulseWpp {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+    .sobre-img-container, .sobre-text-container { flex: 100%; }
+    .janaina-foto { height: 500px; }
+    .section-title { font-size: 2.2rem; }
+}
 
 @media (max-width: 768px) {
-    .hero-content h1 { font-size: 2.5rem; }
-    .nav-links { display: none; } /* Adicionar menu hamburguer depois */
+    .nav-links { display: none; }
+    .hero-content { padding-left: 20px; padding-right: 20px; text-align: center; }
+    .hero-content h1 { font-size: 2.8rem; }
+    .results-grid { grid-template-columns: 1fr; }
+    .result-image { height: 550px; } /* Ajuste de altura para telas pequenas */
+    .sobre-text-container h2 { font-size: 2.5rem; }
+    .sobre-img-container { min-width: 100%; }
+    .sobre-text-container { padding: 50px 20px; }
 }

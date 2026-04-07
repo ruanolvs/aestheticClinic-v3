@@ -1,68 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JV Essential Beauty | Estética Avançada em Amstelveen</title>
 
-    <link rel="icon" type="image/png" href="assets/jv-favicon.png">
+    <link rel="icon" type="image/png" href="assets/icons/jv-favicon.png">
 
-    <meta name="description"
-        content="JV Essential Beauty - Protocolos exclusivos de estética avançada e personalizada com Janaina Valente em Amstelveen. Agende online Limpeza de Pele, Massagens e mais.">
-    <meta name="keywords"
-        content="estética amstelveen, janaina valente, limpeza de pele amstelveen, massagem amstelveen, jv essential beauty, micropigmentação amstelveen">
+    <meta name="description" content="JV Essential Beauty - Estética avançada com Janaina Valente em Amstelveen, próximo a Amsterdam. Limpeza de Pele e Massagens.">
+    <meta name="keywords" content="estética amstelveen, estética amsterdam, clínica de estética amsterdam, janaina valente, limpeza de pele amstelveen">
 
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="JV Essential Beauty | Sua Melhor Versão em Amstelveen">
-    <meta property="og:description"
-        content="Estética avançada e protocolos personalizados com Janaina Valente. Agende sua consulta!">
-    <meta property="og:image" content="https://jv-essentialbeauty.netlify.app/assets/og-image.jpg">
     <link rel="stylesheet" href="css/style.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BeautySalon",
-      "name": "JV Essential Beauty",
-      "image": "https://jv-essentialbeauty.netlify.app/assets/og-image.jpg",
-      "url": "https://jv-essentialbeauty.netlify.app/",
-      "telephone": "+31621548891",
-      "priceRange": "$$",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Kinkerstraat 39",
-        "addressLocality": "Amstelveen",
-        "addressCountry": "NL"
-      },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday"
-        ],
-        "opens": "09:00",
-        "closes": "18:00"
-      }
-    }
-    </script>
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
-
 <body>
     <header>
         <nav class="container">
             <div class="logo">JV <span>Essential Beauty</span></div>
-
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#resultados">Resultados</a></li>
                 <li><a href="#faq">FAQ</a></li>
                 <li><a href="#sobre">Sobre</a></li>
                 <li><a href="https://wa.me/31685580076" class="btn-agendar">Agendar Agora</a></li>
@@ -72,7 +33,7 @@
 
     <main>
         <section id="home" class="hero">
-            <div class="hero-content container">
+            <div class="hero-content container" data-aos="fade-up" data-aos-delay="100">
                 <h1>Sua melhor versão começa aqui</h1>
                 <p>Procedimentos personalizados e avançados em Amstelveen.</p>
                 <div class="hero-btns">
@@ -81,52 +42,54 @@
             </div>
         </section>
 
-        <section id="servicos" class="container section-padding">
+        <section id="servicos" class="container section-padding" data-aos="fade-up">
             <h2 class="section-title">Nossos Serviços</h2>
             <div class="grid-servicos" id="grid-servicos">
-            </div>
-            <p class="obs-reserva">* Reserva de 50% via Tikkie para agendamento.</p>
+                </div>
         </section>
 
-        <section id="faq" class="container section-padding">
+        <section id="resultados" class="container section-padding" data-aos="fade-up">
+            <h2 class="section-title">Resultados Reais</h2>
+            <div class="results-grid">
+                <div class="result-image-container" data-aos="fade-right" data-aos-delay="100">
+                    <span class="label-result">Antes</span>
+                    <img src="assets/before-after/antes.jpeg" alt="Resultado Antes" class="result-image">
+                </div>
+                <div class="result-image-container" data-aos="fade-left" data-aos-delay="200">
+                    <span class="label-result">Depois</span>
+                    <img src="assets/before-after/depois.jpeg" alt="Resultado Depois" class="result-image">
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="container section-padding" data-aos="fade-up">
             <h2 class="section-title">Perguntas Frequentes (FAQ)</h2>
             <div class="faq-container">
                 <div class="faq-item">
-                    <button class="faq-question">Como funciona a reserva de 50%? <i
-                            class="fas fa-chevron-down"></i></button>
-                    <div class="faq-answer">
-                        <p>Solicitamos um depósito de 50% antecipado via Tikkie para garantir seu horário. O restante é
-                            pago no dia do atendimento.</p>
-                    </div>
+                    <button class="faq-question">Como funciona a reserva de 50%? <i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>Solicitamos um depósito de 50% antecipado via Tikkie para garantir seu horário.</p></div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-question">Onde a clínica está localizada? <i
-                            class="fas fa-chevron-down"></i></button>
-                    <div class="faq-answer">
-                        <p>Estamos localizados na Rembrandtweg 39, Amstelveen. Estacionamento gratuito disponível.</p>
-                    </div>
+                    <button class="faq-question">Onde a clínica está localizada? <i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>Estamos localizados na Rembrandtweg 39, Amstelveen.</p></div>
                 </div>
                 <div class="faq-item">
-                    <button class="faq-question">Quais formas de pagamento vocês aceitam? <i
-                            class="fas fa-chevron-down"></i></button>
-                    <div class="faq-answer">
-                        <p>Aceitamos Tikkie, transferência bancária e dinheiro.</p>
-                    </div>
+                    <button class="faq-question">Quais formas de pagamento vocês aceitam? <i class="fas fa-chevron-down"></i></button>
+                    <div class="faq-answer"><p>Aceitamos Tikkie, transferência bancária e dinheiro.</p></div>
                 </div>
             </div>
         </section>
 
-        <section id="sobre" class="sobre-mim section-padding">
-            <div class="container sobre-content">
-                <div class="sobre-foto">
-                    <img src="assets/janaina.jpg" alt="Janaina Valente">
+        <section id="sobre" class="sobre-mim" data-aos="fade-up">
+            <div class="sobre-grid">
+                <div class="sobre-img-container">
+                    <img src="assets/images/janaina.jpg" alt="Janaina Valente" class="janaina-foto">
                 </div>
-                <div class="sobre-texto">
+                <div class="sobre-text-container">
                     <span class="subtitle">ESPECIALISTA EM ESTÉTICA AVANÇADA</span>
                     <h2>Janaina Valente</h2>
                     <p>Cuidado e ciência para realçar sua beleza natural e autoestima em um ambiente exclusivo.</p>
-                    <p>Com protocolos exclusivos na JV Essential Beauty, cada atendimento é planejado para entregar
-                        resultados reais.</p>
+                    <p>Com protocolos exclusivos na JV Essential Beauty, cada atendimento é planejado para entregar resultados reais.</p>
                     <a href="https://wa.me/31685580076" class="cta-button-light">Conversar no WhatsApp</a>
                 </div>
             </div>
@@ -134,16 +97,21 @@
     </main>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2026 JV Essential Beauty. Rembrandtweg 39, Amstelveen.</p>
-        </div>
+        <p>&copy; 2026 JV Essential Beauty. Rembrandtweg 39, Amstelveen.</p>
     </footer>
 
-    <button class="bot-trigger" onclick="window.open('https://wa.me/31685580076')" aria-label="WhatsApp">
+    <button class="bot-trigger" onclick="window.open('https://wa.me/31685580076')" data-aos="zoom-in" data-aos-delay="300">
         <i class="fab fa-whatsapp"></i>
     </button>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800, // Duração das animações em milissegundos
+            easing: 'ease-out-quad', // Efeito de aceleração
+            once: true // Anima apenas uma vez quando aparece na tela
+        });
+    </script>
     <script src="scripts/script.js"></script>
 </body>
-
 </html>
