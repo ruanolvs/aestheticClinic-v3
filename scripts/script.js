@@ -9,7 +9,6 @@ function renderizarServicos() {
     const grid = document.getElementById('grid-servicos');
     if (!grid) return;
 
-    // Renderiza cada card com o atributo AOS para animação individual suave
     grid.innerHTML = servicosData.map((cat, index) => `
         <div class="card" data-aos="fade-up" data-aos-delay="${index * 100}">
             <h3>${cat.categoria}</h3>
@@ -23,17 +22,13 @@ function renderizarServicos() {
     `).join('');
 }
 
-// Lógica original do FAQ - Mantida
 function initFaq() {
     document.querySelectorAll('.faq-question').forEach(button => {
         button.addEventListener('click', () => {
             const item = button.parentElement;
-            
-            // Opcional: Fecha outros itens que estejam abertos
             document.querySelectorAll('.faq-item').forEach(other => {
                 if(other !== item) other.classList.remove('active');
             });
-
             item.classList.toggle('active');
         });
     });
@@ -42,4 +37,13 @@ function initFaq() {
 document.addEventListener('DOMContentLoaded', () => {
     renderizarServicos();
     initFaq();
+    
+    // Inicialização do AOS
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-quad',
+            once: true
+        });
+    }
 });
