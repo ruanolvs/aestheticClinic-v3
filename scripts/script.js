@@ -34,11 +34,34 @@ function initFaq() {
     });
 }
 
+// ### NOVA FUNÇÃO: Gerenciamento do Menu Mobile
+function initMenuMobile() {
+    const menuToggle = document.getElementById('mobile-menu');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (!menuToggle || !navLinks) return;
+
+    menuToggle.addEventListener('click', () => {
+        // Alterna a visibilidade do menu
+        navLinks.classList.toggle('active');
+        // Alterna a animação visual do botão hambúrguer (X)
+        menuToggle.classList.toggle('is-active');
+    });
+
+    // Fecha o menu ao clicar em qualquer link (importante para UX)
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            menuToggle.classList.remove('is-active');
+        });
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     renderizarServicos();
     initFaq();
+    initMenuMobile(); // Inicializa o comportamento do hambúrguer
     
-    // Inicialização do AOS
     if (typeof AOS !== 'undefined') {
         AOS.init({
             duration: 800,

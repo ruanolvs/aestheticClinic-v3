@@ -533,6 +533,12 @@ footer {
    ### 10. RESPONSIVIDADE (MOBILE & TABLET)
    ========================================================================== */
 
+/* 0. CONFIGURAÇÃO GLOBAL DE VISIBILIDADE (FORA DAS MEDIAS) */
+/* Por padrão (Desktop), escondemos a versão mobile que está na lista <ul> */
+.nav-btn-mobile {
+    display: none !important;
+}
+
 /* Ajustes para Tablets e Telas Médias */
 @media (max-width: 1024px) {
     .sobre-img-container,
@@ -557,10 +563,65 @@ footer {
 
 /* Ajustes Específicos para Celulares (iPhone/Android) */
 @media (max-width: 768px) {
-    .nav-links {
-        display: none; 
+    /* 1. CONFIGURAÇÃO DO MENU HAMBÚRGUER */
+    .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        gap: 4px;
+        order: 2; 
     }
 
+    .menu-toggle .bar {
+        width: 25px;
+        height: 3px;
+        background: #333;
+        transition: 0.3s;
+    }
+
+    /* 2. MENU LATERAL E BOTÃO INTERNO */
+    .nav-links {
+        display: none; 
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 0;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        z-index: 999;
+        gap: 20px;
+    }
+
+    .nav-links.active {
+        display: flex; 
+    }
+
+    /* 3. LÓGICA DE VISIBILIDADE NO MOBILE */
+    
+    /* ESCONDE o botão que fica solto na barra para não vazar */
+    .btn-desktop {
+        display: none !important; 
+    }
+
+    /* MOSTRA o botão que está dentro da lista <ul> */
+    .nav-btn-mobile {
+        display: block !important;
+        width: 85%;
+        margin-top: 10px;
+    }
+
+    .nav-btn-mobile .btn-agendar {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 15px;
+        font-size: 1.1rem;
+    }
+
+    /* 4. AJUSTES DE CONTEÚDO */
     .hero-content {
         padding: 130px 20px 40px 20px; 
         text-align: center;
@@ -571,14 +632,8 @@ footer {
     }
 
     .hero-content h1 {
-        font-size: 2.4rem;
+        font-size: 2.2rem; 
         line-height: 1.2;
-        margin-bottom: 15px;
-        width: 100%;
-    }
-
-    .section-title {
-        font-size: 2rem;
     }
 
     .results-grid {
@@ -589,5 +644,4 @@ footer {
         height: 350px;
         object-fit: cover;
     }
-} 
-/* Fim da linha 600 aproximadamente */
+}
