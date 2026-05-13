@@ -1,0 +1,11 @@
+{
+  "name": "jvbeauty",
+  "version": "2.0.0",
+  "description": "JV Beauty - Vercel + Turso",
+  "private": true,
+  "dependencies": {
+    "@libsql/client": "^0.14.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

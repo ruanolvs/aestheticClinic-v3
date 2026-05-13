@@ -2,163 +2,232 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JV Beauty | Estética Avançada em Amstelveen</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JV Beauty | Estetica Avancada em Amstelveen</title>
 
-    <link rel="icon" type="image/png" href="/assets/icons/jv-favicon.png?v=2">
-    <link rel="apple-touch-icon" href="/assets/icons/jv-favicon.png?v=2">
+  <link rel="icon" type="image/png" href="/assets/icons/jv-favicon.png?v=2">
+  <link rel="apple-touch-icon" href="/assets/icons/jv-favicon.png?v=2">
 
-    <meta name="description"
-        content="JV Beauty - Estética avançada com Janaina Valente em Amstelveen. Limpeza de Pele, Massagens e Redução de Medidas.">
-    <meta name="keywords"
-        content="estética amstelveen, estética amsterdam, janaina valente, limpeza de pele, massagem modeladora">
+  <meta name="description"
+    content="JV Beauty - Estetica avancada com Janaina Valente em Amstelveen. Limpeza de Pele, Massagens e Reducao de Medidas.">
+  <meta name="keywords"
+    content="estetica amstelveen, estetica amsterdam, janaina valente, limpeza de pele, massagem modeladora, reducao de medidas">
 
-    <link rel="stylesheet" href="css/style.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <meta property="og:title" content="JV Beauty | Estetica Avancada em Amstelveen">
+  <meta property="og:description"
+    content="Procedimentos personalizados e avancados em Amstelveen. Limpeza de Pele, Massagens e Reducao de Medidas.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jvbeauty.nl">
+  <meta property="og:image" content="https://jvbeauty.nl/assets/images/fotoClinica.jpeg">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="theme-color" content="#c9a07c">
+
+  <link rel="canonical" href="https://jvbeauty.nl/">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <header>
-        <nav class="container">
-            <div class="logo">JV <span>Beauty</span></div>
+  <header id="header">
+    <nav class="container" aria-label="Navegacao principal">
+      <div class="logo">JV <span>Beauty</span></div>
 
-            <div class="menu-toggle" id="mobile-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+      <button class="menu-toggle" id="mobile-menu" aria-label="Abrir menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <ul class="nav-links" role="menubar">
+        <li role="none"><a href="#home" role="menuitem">Home</a></li>
+        <li role="none"><a href="#servicos" role="menuitem">Servicos</a></li>
+        <li role="none"><a href="#resultados" role="menuitem">Resultados</a></li>
+        <li role="none"><a href="#sobre" role="menuitem">Sobre</a></li>
+        <li role="none"><a href="#avaliacoes" role="menuitem">Avaliacoes</a></li>
+        <li role="none"><a href="#agendar" role="menuitem">Agendar</a></li>
+        <li role="none"><a href="#faq" role="menuitem">FAQ</a></li>
+        <li class="nav-btn-mobile" role="none">
+          <a href="https://wa.me/31685580076" class="btn-agendar" role="menuitem">Agendar Agora</a>
+        </li>
+      </ul>
+
+      <a href="https://wa.me/31685580076" class="btn-agendar btn-desktop">Agendar Agora</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-content container" data-aos="fade-up" data-aos-delay="100">
+        <h1>Sua melhor versao começa aqui</h1>
+        <p>Procedimentos personalizados e avancados em Amstelveen.</p>
+        <div class="hero-btns">
+          <a href="#servicos" class="cta-button">Ver Procedimentos</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="servicos" class="container section-padding" data-aos="fade-up">
+      <h2 class="section-title">Nossos Servicos</h2>
+      <p class="section-subtitle">Procedimentos exclusivos pensados para realcar sua beleza natural</p>
+      <div class="grid-servicos" id="grid-servicos" aria-label="Lista de servicos"></div>
+    </section>
+
+    <section id="resultados" class="container section-padding" data-aos="fade-up">
+      <h2 class="section-title">Resultados Reais</h2>
+      <div class="results-grid">
+        <div class="result-image-container" data-aos="fade-right" data-aos-delay="100">
+          <span class="label-result">Antes</span>
+          <img src="assets/before-after/antes.jpeg" alt="Resultado antes do procedimento" class="result-image" loading="lazy">
+        </div>
+        <div class="result-image-container" data-aos="fade-left" data-aos-delay="200">
+          <span class="label-result">Depois</span>
+          <img src="assets/before-after/depois.jpeg" alt="Resultado depois do procedimento" class="result-image" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <section id="sobre" class="sobre-mim" data-aos="fade-up">
+      <div class="sobre-grid">
+        <div class="sobre-img-container">
+          <img src="assets/images/janaina.jpg" alt="Janaina Valente - Especialista em estetica avancada" class="janaina-foto" loading="lazy">
+        </div>
+        <div class="sobre-text-container">
+          <span class="subtitle">ESPECIALISTA EM ESTETICA AVANCADA</span>
+          <h2>Janaina Valente</h2>
+          <p>Cuidado e ciencia para realcar sua beleza natural e autoestima em um ambiente exclusivo.</p>
+          <p>Com protocolos exclusivos na JV Beauty, cada atendimento e planejado para entregar resultados
+            reais.</p>
+          <a href="https://wa.me/31685580076" class="cta-button-light">Conversar no WhatsApp</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="avaliacoes" class="container section-padding" data-aos="fade-up">
+      <h2 class="section-title">O que nossas clientes dizem</h2>
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="stars" aria-label="5 estrelas">★★★★★</div>
+          <p>"Atendimento impecavel! A Janaina explica cada passo e os resultados na cintura foram visiveis
+            logo nas primeiras sessoes."</p>
+          <span class="client-name">- Maria Silva</span>
+        </div>
+        <div class="review-card">
+          <div class="stars" aria-label="5 estrelas">★★★★★</div>
+          <p>"A melhor estetica de Amstelveen. O ambiente e super relaxante e profissional."</p>
+          <span class="client-name">- Sophie van Dijk</span>
+        </div>
+      </div>
+      <div class="google-link-container">
+        <a href="https://search.google.com/local/writereview?placeid=ChIJhYY4SSwLxkcRhvNxCW-d2Rw"
+          target="_blank" rel="noopener noreferrer" class="btn-google">
+          <i class="fab fa-google" aria-hidden="true"></i> Avalie nosso atendimento no Google
+        </a>
+      </div>
+    </section>
+
+    <section id="faq" class="container section-padding" data-aos="fade-up">
+      <h2 class="section-title">Perguntas Frequentes</h2>
+      <div class="faq-container">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">Como funciona a reserva de 50%? <i
+              class="fas fa-chevron-down" aria-hidden="true"></i></button>
+          <div class="faq-answer" role="region">
+            <p>Solicitamos um deposito de 50% antecipado via Tikkie para garantir seu horario e evitar
+              faltas.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">Onde a clinica esta localizada? <i
+              class="fas fa-chevron-down" aria-hidden="true"></i></button>
+          <div class="faq-answer" role="region">
+            <p>Estamos localizados na Rembrandtweg 39, 1181 GE Amstelveen, Paises Baixos, com facil acesso e
+              estacionamento.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">Quais formas de pagamento aceitam? <i
+              class="fas fa-chevron-down" aria-hidden="true"></i></button>
+          <div class="faq-answer" role="region">
+            <p>Aceitamos Tikkie, trasferencia bancaria (ING/ABN) e dinheiro.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="agendar" class="agendar-section container section-padding" data-aos="fade-up">
+      <h2 class="section-title">Agende seu Horario</h2>
+      <p class="section-subtitle">Preencha o formulario e envie pelo WhatsApp para confirmar</p>
+      <div class="agendar-card">
+        <form id="booking-form" novalidate>
+          <div class="agendar-row">
+            <div class="field-group">
+              <label for="book-nome">Seu Nome</label>
+              <input type="text" id="book-nome" placeholder="Nome completo" required>
             </div>
-
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#servicos">Serviços</a></li>
-                <li><a href="#resultados">Resultados</a></li>
-                <li><a href="#sobre">Sobre</a></li>
-                <li><a href="#avaliacoes">Avaliações</a></li>
-                <li><a href="#faq">FAQ</a></li>
-                <li class="nav-btn-mobile">
-                    <a href="https://wa.me/31685580076" class="btn-agendar">Agendar Agora</a>
-                </li>
-            </ul>
-
-            <a href="https://wa.me/31685580076" class="btn-agendar btn-desktop">Agendar Agora</a>
-        </nav>
-    </header>
-
-    <main>
-        <section id="home" class="hero">
-            <div class="hero-content container" data-aos="fade-up" data-aos-delay="100">
-                <h1>Sua melhor versão começa aqui</h1>
-                <p>Procedimentos personalizados e avançados em Amstelveen.</p>
-                <div class="hero-btns">
-                    <a href="#servicos" class="cta-button">Ver Procedimentos</a>
-                </div>
+            <div class="field-group">
+              <label for="book-whatsapp">Seu WhatsApp</label>
+              <input type="tel" id="book-whatsapp" placeholder="+31 6 XXXX XXXX">
             </div>
-        </section>
-
-        <section id="servicos" class="container section-padding" data-aos="fade-up">
-            <h2 class="section-title">Nossos Serviços</h2>
-            <div class="grid-servicos" id="grid-servicos">
+          </div>
+          <div class="agendar-row">
+            <div class="field-group">
+              <label for="book-servico">Servico</label>
+              <select id="book-servico" required></select>
             </div>
-        </section>
-
-        <section id="resultados" class="container section-padding" data-aos="fade-up">
-            <h2 class="section-title">Resultados Reais</h2>
-            <div class="results-grid">
-                <div class="result-image-container" data-aos="fade-right" data-aos-delay="100">
-                    <span class="label-result">Antes</span>
-                    <img src="assets/before-after/antes.jpeg" alt="Resultado Antes" class="result-image">
-                </div>
-                <div class="result-image-container" data-aos="fade-left" data-aos-delay="200">
-                    <span class="label-result">Depois</span>
-                    <img src="assets/before-after/depois.jpeg" alt="Resultado Depois" class="result-image">
-                </div>
+            <div class="field-group">
+              <label for="book-plano">Plano</label>
+              <select id="book-plano"></select>
             </div>
-        </section>
-
-        <section id="sobre" class="sobre-mim" data-aos="fade-up">
-            <div class="sobre-grid">
-                <div class="sobre-img-container">
-                    <img src="assets/images/janaina.jpg" alt="Janaina Valente" class="janaina-foto">
-                </div>
-                <div class="sobre-text-container">
-                    <span class="subtitle">ESPECIALISTA EM ESTÉTICA AVANÇADA</span>
-                    <h2>Janaina Valente</h2>
-                    <p>Cuidado e ciência para realçar sua beleza natural e autoestima em um ambiente exclusivo.</p>
-                    <p>Com protocolos exclusivos na JV Beauty, cada atendimento é planejado para entregar resultados
-                        reais.</p>
-                    <a href="https://wa.me/31685580076" class="cta-button-light">Conversar no WhatsApp</a>
-                </div>
+          </div>
+          <div class="agendar-row">
+            <div class="field-group">
+              <label for="book-data">Data Preferida</label>
+              <input type="date" id="book-data" required>
             </div>
-        </section>
-
-        <section id="avaliacoes" class="container section-padding" data-aos="fade-up">
-            <h2 class="section-title">O que nossas clientes dizem</h2>
-            <div class="reviews-grid">
-                <div class="review-card">
-                    <div class="stars">★★★★★</div>
-                    <p>"Atendimento impecável! A Janaina explica cada passo e os resultados na cintura foram visíveis
-                        logo nas primeiras sessões."</p>
-                    <span class="client-name">- Maria Silva</span>
-                </div>
-                <div class="review-card">
-                    <div class="stars">★★★★★</div>
-                    <p>"A melhor estética de Amstelveen. O ambiente é super relaxante e profissional."</p>
-                    <span class="client-name">- Sophie van Dijk</span>
-                </div>
+            <div class="field-group">
+              <label for="book-hora">Horario Preferido</label>
+              <input type="time" id="book-hora">
             </div>
-            <div class="google-link-container">
-                <a href="https://search.google.com/local/writereview?placeid=ChIJhYY4SSwLxkcRhvNxCW-d2Rw"
-                    target="_blank" rel="noopener noreferrer" class="btn-google">
-                    <i class="fab fa-google"></i> Avalie nosso atendimento no Google
-                </a>
-            </div>
-        </section>
+          </div>
+          <div class="field-group">
+            <label for="book-obs">Observacoes</label>
+            <textarea id="book-obs" placeholder="Alergias, preferencias, etc." rows="3"></textarea>
+          </div>
+          <div class="agendar-notice">
+            <i class="fas fa-info-circle"></i>
+            <p>Apos enviar, enviaremos um Tikkie para o deposito de 50%. Seu horario sera confirmado apos o pagamento.</p>
+          </div>
+          <button type="submit" class="cta-button agendar-submit">
+            <i class="fab fa-whatsapp"></i> Enviar pelo WhatsApp
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
 
-        <section id="faq" class="container section-padding" data-aos="fade-up">
-            <h2 class="section-title">Perguntas Frequentes</h2>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <button class="faq-question">Como funciona a reserva de 50%? <i
-                            class="fas fa-chevron-down"></i></button>
-                    <div class="faq-answer">
-                        <p>Solicitamos um depósito de 50% antecipado via Tikkie para garantir seu horário e evitar
-                            faltas.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question">Onde a clínica está localizada? <i
-                            class="fas fa-chevron-down"></i></button>
-                    <div class="faq-answer">
-                        <p>Estamos localizados na Rembrandtweg 39, 1181 GE Amstelveen, Países Baixos, com fácil acesso e estacionamento.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question">Quais formas de pagamento aceitam? <i
-                            class="fas fa-chevron-down"></i></button>
-                    <div class="faq-answer">
-                        <p>Aceitamos Tikkie, transferência bancária (ING/ABN) e dinheiro.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+  <footer>
+    <div class="container footer-content">
+      <div class="footer-logo">JV <span>Beauty</span></div>
+      <p>&copy; 2026 JV Beauty. Todos os direitos reservados.</p>
+      <p class="footer-address">Rembrandtweg 39, 1181 GE Amstelveen, Paises Baixos</p>
+    </div>
+  </footer>
 
-    <footer>
-        <p>&copy; 2026 JV Beauty. Rembrandtweg 39, 1181 GE Amstelveen, Países Baixos.</p>
-    </footer>
+  <a href="https://wa.me/31685580076" class="whatsapp-float" aria-label="Contato via WhatsApp"
+    data-aos="zoom-in" data-aos-delay="300">
+    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+  </a>
 
-    <button class="bot-trigger" onclick="window.open('https://wa.me/31685580076')" data-aos="zoom-in"
-        data-aos-delay="300">
-        <i class="fab fa-whatsapp"></i>
-    </button>
-
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="scripts/script.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="scripts/script.js"></script>
 </body>
 
 </html>
