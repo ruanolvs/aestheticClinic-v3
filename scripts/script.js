@@ -1,6 +1,13 @@
 const WHATSAPP_URL = 'https://wa.me/31685580076';
 const API_URL = '/api';
 
+function escapeHtml(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 const defaultServicos = [
   {
     categoria: 'Massagens',
@@ -58,28 +65,27 @@ async function loadServicos() {
 async function renderizarServicos() {
   const grid = document.getElementById('grid-servicos');
   if (!grid) return;
-
   const servicosData = await loadServicos();
 
   grid.innerHTML = servicosData.map((cat, index) => `
     <article class="service-card" data-aos="fade-up" data-aos-delay="${index * 100}">
       <div class="service-card-header">
-        <span class="service-card-icon"><i class="fas ${cat.icone}"></i></span>
-        <h3 class="service-card-title">${cat.categoria}</h3>
+        <span class="service-card-icon"><i class="fas ${escapeHtml(cat.icone)}"></i></span>
+        <h3 class="service-card-title">${escapeHtml(cat.categoria)}</h3>
       </div>
       <div class="service-card-body">
-        <p class="service-card-desc">${cat.descricao}</p>
+        <p class="service-card-desc">${escapeHtml(cat.descricao)}</p>
         <div class="service-pricing">
           ${cat.itens.map(item => `
-            <div class="service-pricing-item">
-              <span class="price-label">${item.nome}</span>
-              <span class="price-value${item.asterisk ? ' asterisk' : ''}">${item.preco}</span>
-            </div>
-          `).join('')}
+          <div class="service-pricing-item">
+            <span class="price-label">${item.nome}</span>
+            <span class="price-value${item.asterisk ? ' asterisk' : ''}">${item.preco}</span>
+          </div>
+        `).join('')}
         </div>
         <div class="service-card-cta">
           <a href="${WHATSAPP_URL}" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-whatsapp"></i> Agendar ${cat.categoria}
+            <i class="fab fa-whatsapp"></i> Agendar ${escapeHtml(cat.categoria)}
           </a>
         </div>
       </div>
@@ -92,12 +98,10 @@ function initFaq() {
     button.addEventListener('click', () => {
       const item = button.parentElement;
       const isActive = item.classList.contains('active');
-
       document.querySelectorAll('.faq-item').forEach(other => {
         other.classList.remove('active');
         other.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
       });
-
       if (!isActive) {
         item.classList.add('active');
         button.setAttribute('aria-expanded', 'true');
@@ -140,18 +144,14 @@ function initScrollSpy() {
 
   function update() {
     const scrollY = window.scrollY + 150;
-
     sections.forEach(section => {
       const top = section.offsetTop;
       const height = section.offsetHeight;
       const id = section.getAttribute('id');
-
       if (scrollY >= top && scrollY < top + height) {
         navLinks.forEach(link => {
           link.classList.remove('active');
-          if (link.getAttribute('href') === '#' + id) {
-            link.classList.add('active');
-          }
+          if (link.getAttribute('href') === '#' + id) link.classList.add('active');
         });
       }
     });
@@ -164,19 +164,9 @@ function initScrollSpy() {
 function initHeaderScroll() {
   const header = document.getElementById('header');
   if (!header) return;
-
-  let lastScroll = 0;
-
   window.addEventListener('scroll', () => {
-    const currentScroll = window.scrollY;
-
-    if (currentScroll > 80) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-
-    lastScroll = currentScroll;
+    if (window.scrollY > 80) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
   }, { passive: true });
 }
 
@@ -189,86 +179,208 @@ document.addEventListener('DOMContentLoaded', () => {
   initBookingForm();
 
   if (typeof AOS !== 'undefined') {
-    AOS.init({
-      duration: 800,
-      easing: 'ease-out-quad',
-      once: true,
-      offset: 80
-    });
+    AOS.init({ duration: 800, easing: 'ease-out-quad', once: true, offset: 80 });
   }
 });
 
-// ========== BOOKING FORM ==========
+// ========== BOOKING FORM - STEPPER ==========
 
 function initBookingForm() {
   const form = document.getElementById('booking-form');
   if (!form) return;
 
   populateBookingSelects();
-
   document.getElementById('book-servico').addEventListener('change', updatePlanOptions);
+
+  // Carregar slots quando mudar a data
+  document.getElementById('book-data').addEventListener('change', loadTimeSlots);
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    if (validateBookingDate() && validateBookingTime()) {
-      sendBookingWhatsApp();
-    }
+    submitBooking();
   });
 }
 
-function validateBookingDate() {
-  const dataInput = document.getElementById('book-data');
-  if (!dataInput) return true;
-  const selected = dataInput.value;
-  if (!selected) {
-    dataInput.setCustomValidity('Selecione uma data para o agendamento.');
-    dataInput.reportValidity();
-    return false;
-  }
+// Stepper navigation
+function nextStep(step) {
+  const currentStep = step - 1;
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const selectedDate = new Date(selected + 'T00:00:00');
-
-  if (selectedDate < today) {
-    dataInput.setCustomValidity('Nao e possivel agendar para datas passadas.');
-    dataInput.reportValidity();
-    return false;
-  }
-
-  dataInput.setCustomValidity('');
-  return true;
-}
-
-function validateBookingTime() {
-  const dataInput = document.getElementById('book-data');
-  const horaInput = document.getElementById('book-hora');
-  if (!dataInput || !horaInput) return true;
-
-  const data = dataInput.value;
-  const hora = horaInput.value;
-  if (!data || !hora) return true;
-
-  const today = new Date();
-  const todayStr = today.getFullYear() + '-' +
-    String(today.getMonth() + 1).padStart(2, '0') + '-' +
-    String(today.getDate()).padStart(2, '0');
-
-  if (data === todayStr && hora) {
-    const [h, m] = hora.split(':').map(Number);
-    const nowMin = today.getHours() * 60 + today.getMinutes();
-    const selectedMin = h * 60 + m;
-
-    if (selectedMin <= nowMin) {
-      horaInput.setCustomValidity('Este horario ja passou. Escolha um horario futuro.');
-      horaInput.reportValidity();
-      return false;
+  if (currentStep === 1) {
+    const nome = document.getElementById('book-nome').value.trim();
+    if (!nome) {
+      document.getElementById('book-nome').focus();
+      return;
     }
   }
 
-  horaInput.setCustomValidity('');
-  return true;
+  if (currentStep === 2) {
+    const servico = document.getElementById('book-servico').value;
+    if (!servico) {
+      document.getElementById('book-servico').focus();
+      return;
+    }
+  }
+
+  if (currentStep === 3) {
+    const hora = document.getElementById('book-hora').value;
+    const data = document.getElementById('book-data').value;
+    if (!data) {
+      document.getElementById('book-data').focus();
+      return;
+    }
+    if (!hora) {
+      showBookingFeedback('Selecione um horario disponivel.', 'error');
+      return;
+    }
+  }
+
+  goToStep(step);
 }
+
+function prevStep(step) {
+  goToStep(step);
+}
+
+function goToStep(step) {
+  document.querySelectorAll('.form-step').forEach(el => el.classList.remove('active'));
+  const targetStep = document.querySelector(`.form-step[data-step="${step}"]`);
+  if (targetStep) targetStep.classList.add('active');
+
+  document.querySelectorAll('.step-item').forEach(el => {
+    const stepNum = parseInt(el.dataset.step);
+    el.classList.remove('active', 'completed');
+    if (stepNum === step) el.classList.add('active');
+    else if (stepNum < step) el.classList.add('completed');
+  });
+
+  document.querySelectorAll('.step-line').forEach((line, index) => {
+    if (index < step - 1) line.classList.add('active');
+    else line.classList.remove('active');
+  });
+
+  if (step === 4) buildBookingSummary();
+
+  document.querySelector('.agendar-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ========== TIME SLOTS ==========
+
+async function loadTimeSlots() {
+  const data = document.getElementById('book-data').value;
+  const slotsContainer = document.getElementById('time-slots');
+  if (!data || !slotsContainer) return;
+
+  slotsContainer.innerHTML = '<p class="slots-placeholder"><i class="fas fa-spinner fa-spin"></i> Carregando horarios...</p>';
+
+  try {
+    const res = await fetch(`${API_URL}/horarios?data=${data}`);
+    if (!res.ok) throw new Error('Erro ao carregar horarios');
+    const result = await res.json();
+
+    if (result.slots.length === 0) {
+      slotsContainer.innerHTML = '<p class="slots-placeholder"><i class="fas fa-calendar-times"></i> Nenhum horario disponivel nesta data</p>';
+      return;
+    }
+
+    slotsContainer.innerHTML = result.slots.map(slot => `
+      <button type="button" class="time-slot-btn" data-time="${slot.hora}" onclick="selectTimeSlot(this)">
+        <i class="fas fa-clock"></i>
+        <span>${slot.label}</span>
+      </button>
+    `).join('');
+  } catch {
+    slotsContainer.innerHTML = '<p class="slots-placeholder"><i class="fas fa-exclamation-circle"></i> Erro ao carregar. Tente novamente.</p>';
+  }
+}
+
+function selectTimeSlot(btn) {
+  // Remove selecao anterior
+  document.querySelectorAll('.time-slot-btn').forEach(b => b.classList.remove('selected'));
+  // Marca nova selecao
+  btn.classList.add('selected');
+  document.getElementById('book-hora').value = btn.dataset.time;
+}
+
+// ========== BUILD SUMMAR ==========
+
+function buildBookingSummary() {
+  const summary = document.getElementById('booking-summary');
+  if (!summary) return;
+
+  const nome = document.getElementById('book-nome').value.trim();
+  const whatsapp = document.getElementById('book-whatsapp').value.trim();
+  const servico = document.getElementById('book-servico');
+  const servicoText = servico.options[servico.selectedIndex]?.text || '';
+  const plano = document.getElementById('book-plano');
+  const planoText = plano.options[plano.selectedIndex]?.text || '';
+  const data = document.getElementById('book-data').value;
+  const hora = document.getElementById('book-hora').value;
+  const obs = document.getElementById('book-obs').value.trim();
+  const dataFormatada = data ? data.split('-').reverse().join('/') : '';
+
+  // Calcular deposito
+  const preçoTexto = planoText.includes('-') ? planoText.split('-').pop().trim() : '';
+  let depositText = '';
+  if (preçoTexto) {
+    const numeric = preçoTexto.replace(/[^0-9.,]/g, '').replace(',', '.');
+    if (numeric) {
+      const half = (parseFloat(numeric) / 2).toFixed(2);
+      depositText = `€${half}`;
+    }
+  }
+
+  let rows = `
+    <div class="booking-summary-row">
+      <span class="summary-label"><i class="fas fa-user"></i> Nome</span>
+      <span class="summary-value">${escapeHtml(nome)}</span>
+    </div>`;
+
+  if (whatsapp) rows += `
+    <div class="booking-summary-row">
+      <span class="summary-label"><i class="fab fa-whatsapp"></i> WhatsApp</span>
+      <span class="summary-value">${escapeHtml(whatsapp)}</span>
+    </div>`;
+
+  rows += `
+    <div class="booking-summary-row">
+      <span class="summary-label"><i class="fas fa-spa"></i> Servico</span>
+      <span class="summary-value">${escapeHtml(servicoText)}</span>
+    </div>`;
+
+  if (planoText) rows += `
+    <div class="booking-summary-row">
+      <span class="summary-label"><i class="fas fa-tag"></i> Plano</span>
+      <span class="summary-value">${escapeHtml(planoText)}</span>
+    </div>`;
+
+  if (dataFormatada) rows += `
+    <div class="booking-summary-row">
+      <span class="summary-label"><i class="fas fa-calendar"></i> Data</span>
+      <span class="summary-value">${dataFormatada}</span>
+    </div>`;
+
+  if (hora) rows += `
+    <div class="booking-summary-row">
+      <span class="summary-label"><i class="fas fa-clock"></i> Horario</span>
+      <span class="summary-value">${hora}</span>
+    </div>`;
+
+  if (obs) rows += `
+    <div class="booking-summary-row">
+      <span class="summary-label"><i class="fas fa-comment"></i> Obs</span>
+      <span class="summary-value">${escapeHtml(obs)}</span>
+    </div>`;
+
+  if (depositText) rows += `
+    <div class="booking-summary-row booking-deposit">
+      <span class="summary-label"><i class="fas fa-credit-card"></i> Deposito 50%</span>
+      <span class="summary-value">${depositText}</span>
+    </div>`;
+
+  summary.innerHTML = rows;
+}
+
+// ========== SUBMIT BOOKING ==========
 
 async function populateBookingSelects() {
   const data = servicosCache || await loadServicos();
@@ -298,9 +410,15 @@ function updatePlanOptions() {
   planoSelect.innerHTML = cat.itens.map(item =>
     `<option value="${item.nome} - ${item.preco}">${item.nome} - ${item.preco}</option>`
   ).join('');
+
+  // Atualizar valor hidden
+  const firstItem = cat.itens[0];
+  if (firstItem) {
+    document.getElementById('book-valor').value = firstItem.preco;
+  }
 }
 
-async function sendBookingWhatsApp() {
+async function submitBooking() {
   const nome = document.getElementById('book-nome').value.trim();
   const whatsapp = document.getElementById('book-whatsapp').value.trim();
   const servico = document.getElementById('book-servico').value;
@@ -308,50 +426,78 @@ async function sendBookingWhatsApp() {
   const data = document.getElementById('book-data').value;
   const hora = document.getElementById('book-hora').value;
   const obs = document.getElementById('book-obs').value.trim();
+  const valor = document.getElementById('book-valor').value;
 
-  if (!nome || !servico || !data) {
-    showBookingFeedback('Por favor, preencha seu nome, servico e data.', 'error');
+  if (!nome || !servico || !data || !hora) {
+    showBookingFeedback('Preencha todos os campos obrigatorios.', 'error');
     return;
   }
 
-  // Salvar na API primeiro
+  const submitBtn = document.querySelector('.agendar-submit');
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+
   try {
-    const res = await fetch(API_URL + '/agenda/public', {
+    const res = await fetch(API_URL + '/tikkie/create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nome, whatsapp, servico: servico + (plano ? ' - ' + plano : ''), data, hora, obs })
+      body: JSON.stringify({ nome, whatsapp, servico, plano, data, hora, obs, valor })
     });
 
+    const result = await res.json();
+
     if (!res.ok) {
-      const err = await res.json();
-      showBookingFeedback(err.error || 'Erro ao agendar. Tente novamente.', 'error');
+      showBookingFeedback(result.error || 'Erro ao criar agendamento.', 'error');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fas fa-lock"></i> Confirmar e Pagar Deposito';
       return;
     }
+
+    // Sucesso - agendamento criado
+    showBookingFeedback('Agendamento registrado!', 'success');
+
+    // Se tem URL do Tikkie (API configurada), redirecionar
+    if (result.tikkie_url) {
+      setTimeout(() => {
+        window.location.href = result.tikkie_url;
+      }, 1500);
+    } else {
+      // Modo manual - enviar dados via WhatsApp para a Janaina criar o Tikkie
+      const dataFormatada = data.split('-').reverse().join('/');
+      const servicoDesc = servico + (plano ? ` - ${plano}` : '');
+      // Calcular deposito
+      const preçoTexto = plano.includes('-') ? plano.split('-').pop().trim() : valor;
+      const numeric = preçoTexto.replace(/[^0-9.,]/g, '').replace(',', '.');
+      const halfAmount = numeric ? (parseFloat(numeric) / 2).toFixed(2) : '';
+
+      let msg = `*Novo Agendamento - JV Beauty*\n\n`;
+      msg += `*Nome:* ${nome}\n`;
+      if (whatsapp) msg += `*WhatsApp:* ${whatsapp}\n`;
+      msg += `*Servico:* ${servicoDesc}\n`;
+      msg += `*Data:* ${dataFormatada}\n`;
+      msg += `*Horario:* ${hora}\n`;
+      if (halfAmount) msg += `*Deposito 50%:* €${halfAmount}\n`;
+      if (obs) msg += `*Observacoes:* ${obs}\n`;
+      msg += `\n_Status: Aguardando pagamento via Tikkie_`;
+      msg += `\n_ID: ${result.id}_`;
+
+      const url = WHATSAPP_URL + '?text=' + encodeURIComponent(msg);
+      setTimeout(() => {
+        window.open(url, '_blank');
+      }, 1000);
+    }
+
+    // Reset form
+    document.getElementById('booking-form').reset();
+    populateBookingSelects();
+    goToStep(1);
+
   } catch {
     showBookingFeedback('Erro de conexao. Tente novamente.', 'error');
-    return;
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<i class="fas fa-lock"></i> Confirmar e Pagar Deposito';
   }
-
-  showBookingFeedback('Agendamento registrado com sucesso!', 'success');
-
-  // Abrir WhatsApp como notificacao adicional
-  const dataFormatada = data.split('-').reverse().join('/');
-
-  let msg = `*Novo Agendamento - JV Beauty*\n\n`;
-  msg += `*Nome:* ${nome}\n`;
-  if (whatsapp) msg += `*WhatsApp:* ${whatsapp}\n`;
-  msg += `*Servico:* ${servico}\n`;
-  if (plano) msg += `*Plano:* ${plano}\n`;
-  msg += `*Data:* ${dataFormatada}\n`;
-  if (hora) msg += `*Horario:* ${hora}\n`;
-  if (obs) msg += `*Observacoes:* ${obs}\n`;
-  msg += `\n_Enviado pelo site jvbeauty.nl_`;
-
-  const url = WHATSAPP_URL + '?text=' + encodeURIComponent(msg);
-  window.open(url, '_blank');
-
-  document.getElementById('booking-form').reset();
-  populateBookingSelects();
 }
 
 function showBookingFeedback(message, type) {
@@ -360,8 +506,8 @@ function showBookingFeedback(message, type) {
     feedback = document.createElement('div');
     feedback.id = 'booking-feedback';
     feedback.className = 'booking-feedback';
-    const submitBtn = document.querySelector('.agendar-submit');
-    submitBtn.parentNode.insertBefore(feedback, submitBtn);
+    const card = document.querySelector('.agendar-card');
+    card.insertBefore(feedback, card.firstChild);
   }
 
   feedback.textContent = message;

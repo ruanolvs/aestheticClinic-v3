@@ -59,17 +59,33 @@
         </li>
       </ul>
 
-      <a href="https://wa.me/31685580076" class="btn-agendar btn-desktop">Agendar Agora</a>
+      <div class="nav-right">
+        <a href="https://wa.me/31685580076" class="header-social" aria-label="WhatsApp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://www.instagram.com/janainavalenteestetica/" class="header-social" aria-label="Instagram" target="_blank"
+          rel="noopener noreferrer">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://wa.me/31685580076" class="btn-agendar btn-desktop">Agendar Agora</a>
+      </div>
     </nav>
   </header>
 
   <main>
     <section id="home" class="hero">
-      <div class="hero-content container" data-aos="fade-up" data-aos-delay="100">
-        <h1>Sua melhor versao começa aqui</h1>
-        <p>Procedimentos personalizados e avancados em Amstelveen.</p>
-        <div class="hero-btns">
-          <a href="#servicos" class="cta-button">Ver Procedimentos</a>
+      <div class="hero-content container">
+        <div class="hero-text" data-aos="fade-right" data-aos-delay="100">
+          <span class="hero-tag">Estetica Avancada em Amstelveen</span>
+          <h1>Sua melhor versao comeca aqui</h1>
+          <p>Procedimentos personalizados e avancados para realcar sua beleza natural.</p>
+          <div class="hero-btns">
+            <a href="#servicos" class="cta-button">Ver Procedimentos</a>
+            <a href="#agendar" class="cta-button-outline">Agendar Horario</a>
+          </div>
+        </div>
+        <div class="hero-image" data-aos="fade-left" data-aos-delay="200">
+          <img src="assets/images/fotoClinica.jpeg" alt="JV Beauty - Clinica de Estetica" loading="eager">
         </div>
       </div>
     </section>
@@ -80,24 +96,30 @@
       <div class="grid-servicos" id="grid-servicos" aria-label="Lista de servicos"></div>
     </section>
 
-    <section id="resultados" class="container section-padding" data-aos="fade-up">
-      <h2 class="section-title">Resultados Reais</h2>
-      <div class="results-grid">
+    <section id="resultados" class="section-padding section-alt" data-aos="fade-up">
+      <div class="container">
+        <h2 class="section-title">Resultados Reais</h2>
+        <p class="section-subtitle">Veja a transformacao que nossos procedimentos proporcionam</p>
+      </div>
+      <div class="container results-grid">
         <div class="result-image-container" data-aos="fade-right" data-aos-delay="100">
-          <span class="label-result">Antes</span>
-          <img src="assets/before-after/antes.jpeg" alt="Resultado antes do procedimento" class="result-image" loading="lazy">
+          <span class="label-result label-antes">Antes</span>
+          <img src="assets/before-after/antes.jpeg" alt="Resultado antes do procedimento" class="result-image"
+            loading="lazy">
         </div>
         <div class="result-image-container" data-aos="fade-left" data-aos-delay="200">
-          <span class="label-result">Depois</span>
-          <img src="assets/before-after/depois.jpeg" alt="Resultado depois do procedimento" class="result-image" loading="lazy">
+          <span class="label-result label-depois">Depois</span>
+          <img src="assets/before-after/depois.jpeg" alt="Resultado depois do procedimento" class="result-image"
+            loading="lazy">
         </div>
       </div>
     </section>
 
     <section id="sobre" class="sobre-mim" data-aos="fade-up">
-      <div class="sobre-grid">
+      <div class="container sobre-grid">
         <div class="sobre-img-container">
-          <img src="assets/images/janaina.jpg" alt="Janaina Valente - Especialista em estetica avancada" class="janaina-foto" loading="lazy">
+          <img src="assets/images/janaina.jpg" alt="Janaina Valente - Especialista em estetica avancada"
+            class="janaina-foto" loading="lazy">
         </div>
         <div class="sobre-text-container">
           <span class="subtitle">ESPECIALISTA EM ESTETICA AVANCADA</span>
@@ -105,43 +127,252 @@
           <p>Cuidado e ciencia para realcar sua beleza natural e autoestima em um ambiente exclusivo.</p>
           <p>Com protocolos exclusivos na JV Beauty, cada atendimento e planejado para entregar resultados
             reais.</p>
-          <a href="https://wa.me/31685580076" class="cta-button-light">Conversar no WhatsApp</a>
+          <div class="sobre-cta-group">
+            <a href="https://wa.me/31685580076" class="cta-button">Conversar no WhatsApp</a>
+            <a href="#agendar" class="cta-button-outline">Agendar Horario</a>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="avaliacoes" class="container section-padding" data-aos="fade-up">
-      <h2 class="section-title">O que nossas clientes dizem</h2>
-      <div class="reviews-grid">
-        <div class="review-card">
-          <div class="stars" aria-label="5 estrelas">★★★★★</div>
-          <p>"Atendimento impecavel! A Janaina explica cada passo e os resultados na cintura foram visiveis
-            logo nas primeiras sessoes."</p>
-          <span class="client-name">- Maria Silva</span>
+    <section id="avaliacoes" class="section-padding section-alt" data-aos="fade-up">
+      <div class="container">
+        <h2 class="section-title">O que nossas clientes dizem</h2>
+        <p class="section-subtitle">Depoimentos de quem confia na JV Beauty</p>
+        <div class="reviews-grid">
+          <div class="review-card">
+            <div class="stars" aria-label="5 estrelas">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p class="review-text">"Atendimento impecavel! A Janaina explica cada passo e os resultados na cintura
+              foram visiveis logo nas primeiras sessoes."</p>
+            <div class="review-author">
+              <span class="client-name">Maria Silva</span>
+              <span class="client-service">Reducao de Medidas</span>
+            </div>
+          </div>
+          <div class="review-card">
+            <div class="stars" aria-label="5 estrelas">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <p class="review-text">"A melhor estetica de Amstelveen. O ambiente e super relaxante e profissional."
+            </p>
+            <div class="review-author">
+              <span class="client-name">Sophie van Dijk</span>
+              <span class="client-service">Limpeza de Pele</span>
+            </div>
+          </div>
         </div>
-        <div class="review-card">
-          <div class="stars" aria-label="5 estrelas">★★★★★</div>
-          <p>"A melhor estetica de Amstelveen. O ambiente e super relaxante e profissional."</p>
-          <span class="client-name">- Sophie van Dijk</span>
+        <div class="google-link-container">
+          <a href="https://search.google.com/local/writereview?placeid=ChIJhYY4SSwLxkcRhvNxCW-d2Rw"
+            target="_blank" rel="noopener noreferrer" class="btn-google">
+            <i class="fab fa-google" aria-hidden="true"></i> Avalie nosso atendimento no Google
+          </a>
         </div>
       </div>
-      <div class="google-link-container">
-        <a href="https://search.google.com/local/writereview?placeid=ChIJhYY4SSwLxkcRhvNxCW-d2Rw"
-          target="_blank" rel="noopener noreferrer" class="btn-google">
-          <i class="fab fa-google" aria-hidden="true"></i> Avalie nosso atendimento no Google
-        </a>
+    </section>
+
+    <section id="agendar" class="agendar-section section-alt section-padding" data-aos="fade-up">
+      <div class="container">
+        <h2 class="section-title">Agende seu Horario</h2>
+        <p class="section-subtitle">Reserve online e confirme com deposito de 50% via Tikkie</p>
+
+        <!-- Stepper -->
+        <div class="booking-stepper" id="booking-stepper">
+          <div class="step-item active" data-step="1">
+            <div class="step-number">1</div>
+            <span class="step-label">Dados</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item" data-step="2">
+            <div class="step-number">2</div>
+            <span class="step-label">Servico</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item" data-step="3">
+            <div class="step-number">3</div>
+            <span class="step-label">Horario</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item" data-step="4">
+            <div class="step-number">4</div>
+            <span class="step-label">Confirmar</span>
+          </div>
+        </div>
+
+        <div class="agendar-wrapper">
+          <div class="agendar-card">
+            <form id="booking-form" novalidate>
+              <!-- Step 1: Dados pessoais -->
+              <div class="form-step active" data-step="1">
+                <div class="form-step-header">
+                  <i class="fas fa-user"></i>
+                  <div>
+                    <h3>Seus Dados</h3>
+                    <p>Informe seu nome e telefone para contato</p>
+                  </div>
+                </div>
+                <div class="agendar-row">
+                  <div class="field-group">
+                    <div class="input-wrapper">
+                      <i class="fas fa-user input-icon"></i>
+                      <input type="text" id="book-nome" placeholder=" " required>
+                      <label for="book-nome">Seu Nome</label>
+                    </div>
+                  </div>
+                  <div class="field-group">
+                    <div class="input-wrapper">
+                      <i class="fab fa-whatsapp input-icon"></i>
+                      <input type="tel" id="book-whatsapp" placeholder=" ">
+                      <label for="book-whatsapp">Seu WhatsApp</label>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="step-next cta-button" onclick="nextStep(2)">
+                  Proximo <i class="fas fa-arrow-right"></i>
+                </button>
+              </div>
+
+              <!-- Step 2: Servico -->
+              <div class="form-step" data-step="2">
+                <div class="form-step-header">
+                  <i class="fas fa-spa"></i>
+                  <div>
+                    <h3>Escolha o Servico</h3>
+                    <p>Selecione o procedimento e plano desejado</p>
+                  </div>
+                </div>
+                <div class="agendar-row">
+                  <div class="field-group">
+                    <div class="input-wrapper select-wrapper">
+                      <i class="fas fa-spa input-icon"></i>
+                      <select id="book-servico" required></select>
+                      <label>Servico</label>
+                    </div>
+                  </div>
+                  <div class="field-group">
+                    <div class="input-wrapper select-wrapper">
+                      <i class="fas fa-tag input-icon"></i>
+                      <select id="book-plano"></select>
+                      <label>Plano</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="step-nav">
+                  <button type="button" class="step-back cta-button-outline" onclick="prevStep(1)">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                  </button>
+                  <button type="button" class="step-next cta-button" onclick="nextStep(3)">
+                    Proximo <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Step 3: Data e horario disponiveis -->
+              <div class="form-step" data-step="3">
+                <div class="form-step-header">
+                  <i class="fas fa-calendar-alt"></i>
+                  <div>
+                    <h3>Quando deseja agendar?</h3>
+                    <p>Escolha a data e horario disponiveis</p>
+                  </div>
+                </div>
+                <div class="field-group">
+                  <div class="input-wrapper">
+                    <i class="fas fa-calendar input-icon"></i>
+                    <input type="date" id="book-data" required>
+                    <label for="book-data">Data</label>
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label class="slots-label">Horarios Disponiveis</label>
+                  <div class="time-slots" id="time-slots">
+                    <p class="slots-placeholder">Selecione uma data para ver os horarios</p>
+                  </div>
+                </div>
+                <div class="field-group">
+                  <div class="input-wrapper textarea-wrapper">
+                    <i class="fas fa-comment-dots input-icon"></i>
+                    <textarea id="book-obs" placeholder=" " rows="3"></textarea>
+                    <label for="book-obs">Observacoes</label>
+                  </div>
+                </div>
+                <input type="hidden" id="book-hora" value="">
+                <input type="hidden" id="book-valor" value="">
+                <div class="step-nav">
+                  <button type="button" class="step-back cta-button-outline" onclick="prevStep(2)">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                  </button>
+                  <button type="button" class="step-next cta-button" onclick="nextStep(4)">
+                    Proximo <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Step 4: Confirmacao e Pagamento -->
+              <div class="form-step" data-step="4">
+                <div class="form-step-header">
+                  <i class="fas fa-check-circle"></i>
+                  <div>
+                    <h3>Confirme seu Agendamento</h3>
+                    <p>Verifique os dados e efetue o deposito para confirmar</p>
+                  </div>
+                </div>
+                <div class="booking-summary" id="booking-summary"></div>
+                <div class="agendar-notice">
+                  <i class="fas fa-info-circle"></i>
+                  <p>Seu horario so sera confirmado apos o pagamento de <strong>50% via Tikkie</strong>. Voce tem <strong>24 horas</strong> para efetuar o pagamento, caso contrario o agendamento sera cancelado automaticamente.</p>
+                </div>
+                <div class="step-nav">
+                  <button type="button" class="step-back cta-button-outline" onclick="prevStep(3)">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                  </button>
+                  <button type="submit" class="cta-button agendar-submit">
+                    <i class="fas fa-lock"></i> Confirmar e Pagar Deposito
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="agendar-info">
+            <div class="info-card">
+              <div class="info-card-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <h3>Localizacao</h3>
+              <p>Rembrandtweg 39, 1181 GE</p>
+              <p>Amstelveen, Paises Baixos</p>
+              <a href="https://maps.google.com/?q=Rembrandtweg+39+1181+GE+Amstelveen" target="_blank"
+                rel="noopener noreferrer" class="info-link">Ver no Google Maps <i
+                  class="fas fa-external-link-alt"></i></a>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon"><i class="fab fa-whatsapp"></i></div>
+              <h3>Contato</h3>
+              <p>+31 685580076</p>
+              <a href="https://wa.me/31685580076" target="_blank" rel="noopener noreferrer" class="info-link">Enviar
+                mensagem <i class="fas fa-external-link-alt"></i></a>
+            </div>
+            <div class="info-card">
+              <div class="info-card-icon"><i class="fas fa-clock"></i></div>
+              <h3>Horario</h3>
+              <p>Seg - Sex: 09:00 - 19:00</p>
+              <p>Sab: 09:00 - 15:00</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section id="faq" class="container section-padding" data-aos="fade-up">
       <h2 class="section-title">Perguntas Frequentes</h2>
+      <p class="section-subtitle">Tire suas duvidas sobre nossos procedimentos e agendamento</p>
       <div class="faq-container">
         <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">Como funciona a reserva de 50%? <i
+          <button class="faq-question" aria-expanded="false">Como funciona o deposito de 50%? <i
               class="fas fa-chevron-down" aria-hidden="true"></i></button>
           <div class="faq-answer" role="region">
-            <p>Solicitamos um deposito de 50% antecipado via Tikkie para garantir seu horario e evitar
-              faltas.</p>
+            <p>Apos agendar, voce recebera um link de pagamento via Tikkie para o deposito de 50%. Seu horario so sera confirmado apos o pagamento. Voce tem 24 horas para pagar, caso contrario o agendamento e cancelado automaticamente.</p>
           </div>
         </div>
         <div class="faq-item">
@@ -156,68 +387,58 @@
           <button class="faq-question" aria-expanded="false">Quais formas de pagamento aceitam? <i
               class="fas fa-chevron-down" aria-hidden="true"></i></button>
           <div class="faq-answer" role="region">
-            <p>Aceitamos Tikkie, trasferencia bancaria (ING/ABN) e dinheiro.</p>
+            <p>O deposito de 50% e feito via Tikkie. O restante pode ser pago no dia com Tikkie, trasferencia bancaria (ING/ABN) ou dinheiro.</p>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section id="agendar" class="agendar-section container section-padding" data-aos="fade-up">
-      <h2 class="section-title">Agende seu Horario</h2>
-      <p class="section-subtitle">Preencha o formulario e envie pelo WhatsApp para confirmar</p>
-      <div class="agendar-card">
-        <form id="booking-form" novalidate>
-          <div class="agendar-row">
-            <div class="field-group">
-              <label for="book-nome">Seu Nome</label>
-              <input type="text" id="book-nome" placeholder="Nome completo" required>
-            </div>
-            <div class="field-group">
-              <label for="book-whatsapp">Seu WhatsApp</label>
-              <input type="tel" id="book-whatsapp" placeholder="+31 6 XXXX XXXX">
-            </div>
-          </div>
-          <div class="agendar-row">
-            <div class="field-group">
-              <label for="book-servico">Servico</label>
-              <select id="book-servico" required></select>
-            </div>
-            <div class="field-group">
-              <label for="book-plano">Plano</label>
-              <select id="book-plano"></select>
-            </div>
-          </div>
-          <div class="agendar-row">
-            <div class="field-group">
-              <label for="book-data">Data Preferida</label>
-              <input type="date" id="book-data" required>
-            </div>
-            <div class="field-group">
-              <label for="book-hora">Horario Preferido</label>
-              <input type="time" id="book-hora">
-            </div>
-          </div>
-          <div class="field-group">
-            <label for="book-obs">Observacoes</label>
-            <textarea id="book-obs" placeholder="Alergias, preferencias, etc." rows="3"></textarea>
-          </div>
-          <div class="agendar-notice">
-            <i class="fas fa-info-circle"></i>
-            <p>Apos enviar, enviaremos um Tikkie para o deposito de 50%. Seu horario sera confirmado apos o pagamento.</p>
-          </div>
-          <button type="submit" class="cta-button agendar-submit">
-            <i class="fab fa-whatsapp"></i> Enviar pelo WhatsApp
-          </button>
-        </form>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="container footer-content">
-      <div class="footer-logo">JV <span>Beauty</span></div>
+    <div class="container footer-grid">
+      <div class="footer-col footer-brand">
+        <div class="footer-logo">JV <span>Beauty</span></div>
+        <p class="footer-desc">Estetica avancada com procedimentos personalizados em Amstelveen.</p>
+        <div class="footer-social">
+          <a href="https://wa.me/31685580076" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://www.instagram.com/janainavalenteestetica/" aria-label="Instagram" target="_blank"
+            rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Institucional</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#sobre">Sobre Nos</a></li>
+          <li><a href="#resultados">Resultados</a></li>
+          <li><a href="#avaliacoes">Avaliacoes</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Agendamento Rapido</h4>
+        <ul>
+          <li><a href="https://wa.me/31685580076?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20Massagem">Massagens</a></li>
+          <li><a href="https://wa.me/31685580076?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20Redu%C3%A7%C3%A3o%20de%20Medidas">Reducao de Medidas</a></li>
+          <li><a href="https://wa.me/31685580076?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20Limpeza%20de%20Pele">Limpeza de Pele</a></li>
+          <li><a href="https://wa.me/31685580076?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20sobre%20o%20Plano%20Exclusivo">Plano Exclusivo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Horario de Funcionamento</h4>
+        <ul class="horario-list">
+          <li><span>Segunda - Sexta</span><span>09:00 - 19:00</span></li>
+          <li><span>Sabado</span><span>09:00 - 15:00</span></li>
+          <li><span>Domingo</span><span>Fechado</span></li>
+        </ul>
+        <div class="footer-address">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>Rembrandtweg 39, 1181 GE Amstelveen</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom container">
       <p>&copy; 2026 JV Beauty. Todos os direitos reservados.</p>
-      <p class="footer-address">Rembrandtweg 39, 1181 GE Amstelveen, Paises Baixos</p>
     </div>
   </footer>
 
@@ -227,6 +448,7 @@
   </a>
 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>window.JV_CONFIG = { whatsapp: 'https://wa.me/31685580076', api: '/api' };</script>
   <script src="scripts/script.js"></script>
 </body>
 

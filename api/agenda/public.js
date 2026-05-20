@@ -2,11 +2,14 @@ const { sanitizeObj, setCorsHeaders } = require('../../lib/utils');
 const db = require('../../lib/turso');
 
 module.exports = async function handler(req, res) {
-  setCorsHeaders(res);
+  setCorsHeaders(res, req);
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Metodo nao permitido' });
 
-  const { nome, whatsapp, servico, data, hora, obs } = sanitizeObj(req.body, ['nome', 'whatsapp', 'servico', 'data', 'hora', 'obs']);
+  const { nome, whatsapp, servico, plano, data, hora, obs } = sanitizeObj(req.body, [
+    'nome', 'whatsapp', 'servico', 'plano', 'data', 'hora', 'obs'
+  ]);
+
   if (!nome || !servico || !data) return res.status(400).json({ error: 'Nome, servico e data sao obrigatorios' });
 
   if (nome.length > 100 || (whatsapp && whatsapp.length > 30) || (obs && obs.length > 500)) {
@@ -19,9 +22,12 @@ module.exports = async function handler(req, res) {
   if (selected < today) return res.status(400).json({ error: 'Nao e possivel agendar para datas passadas' });
 
   try {
-    const appointment = await db.addAppointment({ nome, whatsapp, servico, data, hora, obs, status: 'pendente' });
-    await db.addAuditLog('PUBLIC_BOOKING', 'site', `Agendamento publico: ${nome} - ${servico} - ${data}`);
-    return res.status(200).json({ success: true, id: appointment.id });
+    const appointment = await db.addAppointment({
+      nome, whatsapp, servico, plano: plano || '', data, hora, obs,
+      status: 'aguardando_pagamento'
+    });
+    await db.addAuditLog('PUBLIC_BOOKING', 'site', `Agendamento publico: ${nome} - ${servico} - ${data} ${hora}`);
+    return res.status(200).json({ success: true, id: appointment.id, status: appointment.status });
   } catch (err) {
     return res.status(500).json({ error: 'Erro interno' });
   }

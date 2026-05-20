@@ -1,5 +1,5 @@
 // ============================================
-// JV BEAUTY - PAINEL ADMIN v5.0
+// JV BEAUTY - PAINEL ADMIN v6.0
 // ============================================
 
 const API_URL = '/api';
@@ -294,12 +294,12 @@ async function renderCategories() {
         <label style="font-weight:600; font-size:0.85rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px; display:block;">Precos & Itens</label>
         <div class="pricing-list">
           ${cat.itens.map((item, itemIndex) => `
-          <div class="pricing-item">
-            <input type="text" value="${escapeAttr(item.nome)}" placeholder="Nome" onchange="updateItem(${catIndex}, ${itemIndex}, 'nome', this.value)">
-            <input type="text" value="${escapeAttr(item.preco)}" placeholder="Preco" class="price-input" onchange="updateItem(${catIndex}, ${itemIndex}, 'preco', this.value)">
-            <input type="checkbox" title="Asterisco (*)" ${item.asterisk ? 'checked' : ''} onchange="updateItem(${catIndex}, ${itemIndex}, 'asterisk', this.checked)">
-            <button class="remove-item" onclick="removeItem(${catIndex}, ${itemIndex})" title="Remover">&times;</button>
-          </div>
+            <div class="pricing-item">
+              <input type="text" value="${escapeAttr(item.nome)}" placeholder="Nome" onchange="updateItem(${catIndex}, ${itemIndex}, 'nome', this.value)">
+              <input type="text" value="${escapeAttr(item.preco)}" placeholder="Preco" class="price-input" onchange="updateItem(${catIndex}, ${itemIndex}, 'preco', this.value)">
+              <input type="checkbox" title="Asterisco (*)" ${item.asterisk ? 'checked' : ''} onchange="updateItem(${catIndex}, ${itemIndex}, 'asterisk', this.checked)">
+              <button class="remove-item" onclick="removeItem(${catIndex}, ${itemIndex})" title="Remover">&times;</button>
+            </div>
           `).join('')}
         </div>
         <button class="add-item-btn" onclick="addItem(${catIndex})"><i class="fas fa-plus"></i> Adicionar Item</button>
@@ -424,6 +424,52 @@ function resetToDefault() {
   document.getElementById('modal-reset').classList.add('show');
 }
 
+// ========== STATUS HELPERS ==========
+
+const STATUS_LABELS = {
+  aguardando_pagamento: 'Aguardando Pagamento',
+  confirmado: 'Confirmado',
+  cancelado: 'Cancelado'
+};
+
+const STATUS_ICONS = {
+  aguardando_pagamento: 'fa-clock',
+  confirmado: 'fa-check-circle',
+  cancelado: 'fa-times-circle'
+};
+
+function formatStatus(status) {
+  return STATUS_LABELS[status] || status;
+}
+
+function calcDeposit(valor) {
+  if (!valor) return '';
+  const numeric = valor.replace(/[^0-9.,]/g, '').replace(',', '.');
+  if (!numeric) return '';
+  const half = (parseFloat(numeric) / 2).toFixed(2);
+  return '€' + half;
+}
+
+function formatExpiry(expiraEm) {
+  if (!expiraEm) return '';
+  try {
+    const d = new Date(expiraEm + (expiraEm.endsWith('Z') ? '' : 'Z'));
+    return d.toLocaleString('pt-BR');
+  } catch {
+    return expiraEm;
+  }
+}
+
+function formatPagoEm(pagoEm) {
+  if (!pagoEm) return '';
+  try {
+    const d = new Date(pagoEm + (pagoEm.endsWith('Z') ? '' : 'Z'));
+    return d.toLocaleString('pt-BR');
+  } catch {
+    return pagoEm;
+  }
+}
+
 // ========== AGENDA (API) ==========
 
 function populateServiceSelect() {
@@ -472,29 +518,88 @@ async function renderAgenda() {
     const dateObj = new Date(apt.data + 'T00:00:00');
     const day = dateObj.getDate();
     const month = months[dateObj.getMonth()];
+    const statusClass = apt.status === 'aguardando_pagamento' ? 'aguardando' : apt.status;
+    const isAwaiting = apt.status === 'aguardando_pagamento';
+    const deposit = calcDeposit(apt.valor);
+
+    let quickActions = '';
+    if (isAwaiting) {
+      quickActions = `
+        <button class="btn btn-success btn-sm" onclick="confirmPayment('${apt.id}')" title="Confirmar Pagamento"><i class="fas fa-check"></i> Confirmar Pagto</button>
+        <button class="btn btn-cancel-action btn-sm" onclick="cancelAppointment('${apt.id}')" title="Cancelar"><i class="fas fa-ban"></i> Cancelar</button>
+      `;
+    }
 
     return `
-    <div class="appointment-card status-${apt.status}">
-      <div class="apt-info">
-        <h4>${escapeHtml(apt.nome)}</h4>
-        <p><i class="fas fa-cut"></i> ${escapeHtml(apt.servico)}</p>
-        ${apt.whatsapp ? '<p><i class="fab fa-whatsapp"></i> ' + escapeHtml(apt.whatsapp) + '</p>' : ''}
-        ${apt.obs ? '<p><i class="fas fa-sticky-note"></i> ' + escapeHtml(apt.obs) + '</p>' : ''}
-      </div>
-      <div class="apt-meta">
-        <div class="apt-date">
-          <div class="day">${day}</div>
-          <div class="month">${month}</div>
-          <div class="time">${apt.hora || '--:--'}</div>
+      <div class="appointment-card status-${statusClass}">
+        <div class="apt-info">
+          <h4>${escapeHtml(apt.nome)}</h4>
+          <p><i class="fas fa-cut"></i> ${escapeHtml(apt.servico)}</p>
+          ${apt.plano ? '<p><i class="fas fa-tag"></i> ' + escapeHtml(apt.plano) + '</p>' : ''}
+          ${apt.whatsapp ? '<p><i class="fab fa-whatsapp"></i> ' + escapeHtml(apt.whatsapp) + '</p>' : ''}
+          ${apt.valor ? '<p><i class="fas fa-euro-sign"></i> Valor: ' + escapeHtml(apt.valor) + (deposit ? ' &middot; Deposito: ' + deposit : '') + '</p>' : ''}
+          ${apt.obs ? '<p><i class="fas fa-sticky-note"></i> ' + escapeHtml(apt.obs) + '</p>' : ''}
+          ${isAwaiting && apt.expira_em ? '<p class="apt-expiry"><i class="fas fa-hourglass-half"></i> Expira: ' + formatExpiry(apt.expira_em) + '</p>' : ''}
+          ${apt.pago_em ? '<p class="apt-payed"><i class="fas fa-check-circle"></i> Pago em: ' + formatPagoEm(apt.pago_em) + '</p>' : ''}
+          ${apt.tikkie_payment_url ? '<p><i class="fas fa-external-link-alt"></i> <a href="' + escapeHtml(apt.tikkie_payment_url) + '" target="_blank" rel="noopener">Link Tikkie</a></p>' : ''}
         </div>
-        <span class="apt-status ${apt.status}">${apt.status}</span>
+        <div class="apt-meta">
+          <div class="apt-date">
+            <div class="day">${day}</div>
+            <div class="month">${month}</div>
+            <div class="time">${apt.hora || '--:--'}</div>
+          </div>
+          <span class="apt-status ${statusClass}"><i class="fas ${STATUS_ICONS[apt.status] || 'fa-circle'}"></i> ${formatStatus(apt.status)}</span>
+        </div>
+        <div class="apt-actions">
+          ${quickActions}
+          <button class="btn btn-outline btn-sm" onclick="editAppointment('${apt.id}')" title="Editar"><i class="fas fa-pen"></i></button>
+          <button class="btn btn-danger btn-sm" onclick="deleteAppointment('${apt.id}')" title="Excluir"><i class="fas fa-trash"></i></button>
+        </div>
       </div>
-      <div class="apt-actions">
-        <button class="btn btn-outline btn-sm" onclick="editAppointment('${apt.id}')" title="Editar"><i class="fas fa-pen"></i></button>
-        <button class="btn btn-danger btn-sm" onclick="deleteAppointment('${apt.id}')" title="Excluir"><i class="fas fa-trash"></i></button>
-      </div>
-    </div>
-  `}).join('');
+    `}).join('');
+}
+
+async function confirmPayment(id) {
+  if (!confirm('Confirmar pagamento deste agendamento?')) return;
+  try {
+    const res = await apiFetch('/agenda/' + id, {
+      method: 'PUT',
+      body: JSON.stringify({ status: 'confirmado', pago_em: new Date().toISOString() })
+    });
+    if (res.ok) {
+      await renderAgenda();
+      showToast('Pagamento confirmado!', 'success');
+    } else if (res.status === 401) {
+      showToast('Sessao expirada. Faca login novamente.', 'error');
+      handleLogout();
+    } else {
+      showToast('Erro ao confirmar pagamento', 'error');
+    }
+  } catch {
+    // apiFetch already shows toast
+  }
+}
+
+async function cancelAppointment(id) {
+  if (!confirm('Cancelar este agendamento?')) return;
+  try {
+    const res = await apiFetch('/agenda/' + id, {
+      method: 'PUT',
+      body: JSON.stringify({ status: 'cancelado' })
+    });
+    if (res.ok) {
+      await renderAgenda();
+      showToast('Agendamento cancelado', 'info');
+    } else if (res.status === 401) {
+      showToast('Sessao expirada. Faca login novamente.', 'error');
+      handleLogout();
+    } else {
+      showToast('Erro ao cancelar agendamento', 'error');
+    }
+  } catch {
+    // apiFetch already shows toast
+  }
 }
 
 function openAppointmentModal(apt) {
@@ -506,13 +611,35 @@ function openAppointmentModal(apt) {
   document.getElementById('apt-nome').value = apt ? apt.nome : '';
   document.getElementById('apt-whatsapp').value = apt ? apt.whatsapp || '' : '';
   document.getElementById('apt-servico').value = apt ? apt.servico : (servicosCache[0] || {}).categoria || '';
+  document.getElementById('apt-plano').value = apt ? apt.plano || '' : '';
   document.getElementById('apt-data').value = apt ? apt.data : new Date().toISOString().slice(0, 10);
   document.getElementById('apt-hora').value = apt ? apt.hora || '' : '';
+  document.getElementById('apt-valor').value = apt ? apt.valor || '' : '';
   document.getElementById('apt-obs').value = apt ? apt.obs || '' : '';
-  document.getElementById('apt-status').value = apt ? apt.status : 'pendente';
+  document.getElementById('apt-status').value = apt ? apt.status : 'aguardando_pagamento';
+
+  // Calculate deposit from valor
+  updateDepositField();
+
+  // Tikkie info section
+  const tikkieSection = document.getElementById('apt-tikkie-info');
+  if (isEdit && (apt.tikkie_payment_id || apt.tikkie_payment_url || apt.expira_em)) {
+    tikkieSection.style.display = 'block';
+    document.getElementById('apt-tikkie-id').value = apt.tikkie_payment_id || '';
+    document.getElementById('apt-tikkie-url').value = apt.tikkie_payment_url || '';
+    document.getElementById('apt-expira-em').value = formatExpiry(apt.expira_em);
+    document.getElementById('apt-pago-em').value = formatPagoEm(apt.pago_em);
+  } else {
+    tikkieSection.style.display = 'none';
+  }
 
   modal.classList.add('show');
   modal.dataset.editId = apt ? apt.id : '';
+}
+
+function updateDepositField() {
+  const valor = document.getElementById('apt-valor').value;
+  document.getElementById('apt-deposito').value = calcDeposit(valor);
 }
 
 function closeAppointmentModal() {
@@ -523,8 +650,10 @@ async function saveAppointment() {
   const nome = document.getElementById('apt-nome').value.trim();
   const whatsapp = document.getElementById('apt-whatsapp').value.trim();
   const servico = document.getElementById('apt-servico').value;
+  const plano = document.getElementById('apt-plano').value.trim();
   const data = document.getElementById('apt-data').value;
   const hora = document.getElementById('apt-hora').value;
+  const valor = document.getElementById('apt-valor').value.trim();
   const obs = document.getElementById('apt-obs').value.trim();
   const status = document.getElementById('apt-status').value;
 
@@ -540,12 +669,12 @@ async function saveAppointment() {
     if (editId) {
       res = await apiFetch('/agenda/' + editId, {
         method: 'PUT',
-        body: JSON.stringify({ nome, whatsapp, servico, data, hora, obs, status })
+        body: JSON.stringify({ nome, whatsapp, servico, plano, data, hora, obs, status, valor })
       });
     } else {
       res = await apiFetch('/agenda', {
         method: 'POST',
-        body: JSON.stringify({ nome, whatsapp, servico, data, hora, obs, status })
+        body: JSON.stringify({ nome, whatsapp, servico, plano, data, hora, obs, status, valor })
       });
     }
 
@@ -625,7 +754,10 @@ async function renderAuditLog() {
     CREATE_APPOINTMENT: 'Agendamento Criado',
     UPDATE_APPOINTMENT: 'Agendamento Atualizado',
     DELETE_APPOINTMENT: 'Agendamento Removido',
-    PUBLIC_BOOKING: 'Agendamento Publico'
+    PUBLIC_BOOKING: 'Agendamento Publico',
+    PAYMENT_CONFIRMED: 'Pagamento Confirmado',
+    PAYMENT_EXPIRED: 'Pagamento Expirado',
+    PAYMENT_CANCELLED: 'Pagamento Cancelado'
   };
 
   const actionColors = {
@@ -636,7 +768,10 @@ async function renderAuditLog() {
     CREATE_APPOINTMENT: 'success',
     UPDATE_APPOINTMENT: 'success',
     DELETE_APPOINTMENT: 'danger',
-    PUBLIC_BOOKING: 'success'
+    PUBLIC_BOOKING: 'success',
+    PAYMENT_CONFIRMED: 'success',
+    PAYMENT_EXPIRED: 'warning',
+    PAYMENT_CANCELLED: 'danger'
   };
 
   container.innerHTML = data.map(log => {
@@ -646,17 +781,17 @@ async function renderAuditLog() {
     const date = log.created_at ? new Date(log.created_at + 'Z').toLocaleString('pt-BR') : '';
 
     return `
-    <div class="appointment-card" style="border-left-color: var(--${color === 'info' ? 'primary' : color === 'success' ? 'success' : color === 'warning' ? 'warning' : 'danger'})">
-      <div class="apt-info">
-        <h4>${label}</h4>
-        <p><i class="fas fa-user"></i> ${escapeHtml(log.user || '')}</p>
-        ${log.detail ? '<p><i class="fas fa-info-circle"></i> ' + escapeHtml(log.detail) + '</p>' : ''}
+      <div class="appointment-card" style="border-left-color: var(--${color === 'info' ? 'primary' : color === 'success' ? 'success' : color === 'warning' ? 'warning' : 'danger'})">
+        <div class="apt-info">
+          <h4>${label}</h4>
+          <p><i class="fas fa-user"></i> ${escapeHtml(log.user || '')}</p>
+          ${log.detail ? '<p><i class="fas fa-info-circle"></i> ' + escapeHtml(log.detail) + '</p>' : ''}
+        </div>
+        <div class="apt-meta">
+          <span class="apt-status ${color}" style="text-transform:none; letter-spacing:0">${date}</span>
+        </div>
       </div>
-      <div class="apt-meta">
-        <span class="apt-status ${color}" style="text-transform:none; letter-spacing:0">${date}</span>
-      </div>
-    </div>
-  `}).join('');
+    `}).join('');
 }
 
 // ========== EVENT LISTENERS ==========
@@ -692,6 +827,9 @@ document.getElementById('modal-apt-cancel').addEventListener('click', closeAppoi
 document.getElementById('modal-apt-save').addEventListener('click', saveAppointment);
 document.getElementById('filter-status').addEventListener('change', renderAgenda);
 
+// Auto-calculate deposit when valor changes
+document.getElementById('apt-valor').addEventListener('input', updateDepositField);
+
 const btnRefreshAudit = document.getElementById('btn-refresh-audit');
 if (btnRefreshAudit) btnRefreshAudit.addEventListener('click', renderAuditLog);
 
@@ -700,8 +838,6 @@ if (btnRefreshAudit) btnRefreshAudit.addEventListener('click', renderAuditLog);
 document.addEventListener('DOMContentLoaded', async () => {
   initTabs();
 
-  // NAO faz health check - vai direto pro login
-  // O login em si ja verifica se o servidor esta acessivel
   const savedToken = sessionStorage.getItem('jvbeauty_token');
   if (savedToken) {
     authToken = savedToken;
