@@ -3,7 +3,7 @@
   "trailingSlash": false,
   "crons": [
     {
-      "path": "/api/tikkie/check-expired",
+      "path": "/api/tikkie?action=check-expired",
       "schedule": "0 3 * * *"
     }
   ]

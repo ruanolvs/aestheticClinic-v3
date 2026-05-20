@@ -438,7 +438,7 @@ async function submitBooking() {
   submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
 
   try {
-    const res = await fetch(API_URL + '/tikkie/create', {
+    const res = await fetch(API_URL + '/tikkie?action=create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nome, whatsapp, servico, plano, data, hora, obs, valor })
