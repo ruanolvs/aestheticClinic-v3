@@ -140,9 +140,11 @@
       <select id="apt-servico"></select>
     </div>
     <div class="field-group">
-      <label>Plano</label>
-      <input type="text" id="apt-plano" placeholder="Ex: 1 sessao - EUR75">
+      <label>Plano / Preco</label>
+      <select id="apt-plano"><option value="">Selecione um servico primeiro</option></select>
+      <button type="button" class="btn-add-extra" id="btn-add-servico-extra" title="Adicionar servico extra"><i class="fas fa-plus"></i> Servico extra</button>
     </div>
+    <div id="servicos-extras-list"></div>
     <div class="field-row">
       <div class="field-group">
         <label>Data</label>
@@ -150,13 +152,13 @@
       </div>
       <div class="field-group">
         <label>Hora</label>
-        <input type="time" id="apt-hora">
+        <select id="apt-hora"><option value="">Selecione uma data primeiro</option></select>
       </div>
     </div>
     <div class="field-row">
       <div class="field-group">
         <label>Valor Total</label>
-        <input type="text" id="apt-valor" placeholder="Ex: EUR75">
+        <input type="text" id="apt-valor" placeholder="Calculado automaticamente">
       </div>
       <div class="field-group">
         <label>Deposito (50%)</label>
@@ -196,6 +198,11 @@
         <label>Pago em</label>
         <input type="text" id="apt-pago-em" readonly>
       </div>
+    </div>
+    <div class="modal-actions">
+      <div class="field-group tikkie-create-section" id="apt-tikkie-create" style="display:none">
+      <label><input type="checkbox" id="apt-create-tikkie" checked> Criar pagamento Tikkie automaticamente (deposito 50%)</label>
+      <p class="tikkie-create-hint" id="apt-tikkie-hint">Um link de pagamento Tikkie sera gerado para metade do valor.</p>
     </div>
     <div class="modal-actions">
       <button class="btn btn-outline btn-sm" id="modal-apt-cancel">Cancelar</button>

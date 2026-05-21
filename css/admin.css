@@ -504,3 +504,82 @@ h1, h2, h3 { font-family: 'Playfair Display', serif; }
   .apt-actions .btn-success,
   .apt-actions .btn-cancel-action { flex: 1; justify-content: center; }
 }
+
+/* SERVICOS EXTRAS */
+.btn-add-extra {
+  margin-top: 6px;
+  background: var(--primary-light);
+  border: 1px dashed var(--primary);
+  border-radius: 6px;
+  padding: 6px 12px;
+  color: var(--primary-dark);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.btn-add-extra:hover { background: var(--primary); color: var(--white); }
+
+.servico-extra-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+  padding: 8px;
+  background: var(--primary-light);
+  border-radius: 8px;
+}
+.servico-extra-row select {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+.servico-extra-row .remove-extra {
+  background: var(--danger);
+  color: var(--white);
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+.servico-extra-row .remove-extra:hover { opacity: 0.8; }
+
+#servicos-extras-list { margin-top: 4px; }
+
+/* TIKKIE CREATE SECTION */
+.tikkie-create-section {
+  padding: 12px;
+  background: var(--primary-light);
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  margin-top: 4px;
+}
+.tikkie-create-section label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tikkie-create-section input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+}
+.tikkie-create-hint {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding-left: 26px;
+}

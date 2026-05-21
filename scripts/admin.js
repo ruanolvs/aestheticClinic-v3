@@ -479,6 +479,166 @@ function populateServiceSelect() {
   select.innerHTML = data.map(cat =>
     `<option value="${escapeAttr(cat.categoria)}">${escapeHtml(cat.categoria)}</option>`
   ).join('');
+  populatePlanoSelect();
+}
+
+function populatePlanoSelect() {
+  const servicoSelect = document.getElementById('apt-servico');
+  const planoSelect = document.getElementById('apt-plano');
+  if (!servicoSelect || !planoSelect) return;
+
+  const catName = servicoSelect.value;
+  const cat = servicosCache.find(c => c.categoria === catName);
+
+  if (!cat || !cat.itens || cat.itens.length === 0) {
+    planoSelect.innerHTML = '<option value="">Nenhum plano disponivel</option>';
+    return;
+  }
+
+  planoSelect.innerHTML = cat.itens.map(item =>
+    `<option value="${escapeAttr(item.nome)}" data-preco="${escapeAttr(item.preco || '')}">${escapeHtml(item.nome)} — ${escapeHtml(item.preco || '')}</option>`
+  ).join('');
+}
+
+async function loadAdminTimeSlots(selectedTime) {
+  const data = document.getElementById('apt-data').value;
+  const horaSelect = document.getElementById('apt-hora');
+  if (!horaSelect) return;
+
+  if (!data) {
+    horaSelect.innerHTML = '<option value="">Selecione uma data primeiro</option>';
+    return;
+  }
+
+  horaSelect.innerHTML = '<option value="">Carregando horarios...</option>';
+
+  try {
+    const res = await fetch(API_URL + '/horarios?data=' + data, {
+      headers: { 'Authorization': 'Bearer ' + authToken }
+    });
+    if (!res.ok) throw new Error('Erro');
+    const result = await res.json();
+
+    if (!result.slots || result.slots.length === 0) {
+      horaSelect.innerHTML = '<option value="">Nenhum horario disponivel</option>';
+      return;
+    }
+
+    horaSelect.innerHTML = '<option value="">Selecione um horario</option>' +
+      result.slots.map(slot =>
+        `<option value="${escapeAttr(slot.hora)}"${selectedTime === slot.hora ? ' selected' : ''}>${escapeHtml(slot.label)}</option>`
+      ).join('');
+  } catch {
+    horaSelect.innerHTML = '<option value="">Erro ao carregar horarios</option>';
+  }
+}
+
+let servicosExtras = [];
+
+function addServicoExtra() {
+  const select = document.getElementById('apt-servico');
+  if (!select) return;
+  const catName = select.value;
+  const cat = servicosCache.find(c => c.categoria === catName);
+  if (!cat) return;
+
+  const currentIndex = servicosExtras.length;
+  servicosExtras.push({ servico: catName, plano: cat.itens[0]?.nome || '', preco: cat.itens[0]?.preco || '' });
+
+  renderServicosExtras();
+  updateValorFromPlanos();
+}
+
+function removeServicoExtra(index) {
+  servicosExtras.splice(index, 1);
+  renderServicosExtras();
+  updateValorFromPlanos();
+}
+
+function updateServicoExtra(index, field, value) {
+  if (field === 'servico') {
+    servicosExtras[index].servico = value;
+    const cat = servicosCache.find(c => c.categoria === value);
+    if (cat && cat.itens.length > 0) {
+      servicosExtras[index].plano = cat.itens[0].nome;
+      servicosExtras[index].preco = cat.itens[0].preco || '';
+    } else {
+      servicosExtras[index].plano = '';
+      servicosExtras[index].preco = '';
+    }
+  } else if (field === 'plano') {
+    servicosExtras[index].plano = value;
+    const cat = servicosCache.find(c => c.categoria === servicosExtras[index].servico);
+    const item = cat?.itens?.find(i => i.nome === value);
+    servicosExtras[index].preco = item?.preco || '';
+  }
+  renderServicosExtras();
+  updateValorFromPlanos();
+}
+
+function renderServicosExtras() {
+  const container = document.getElementById('servicos-extras-list');
+  if (!container) return;
+
+  if (servicosExtras.length === 0) {
+    container.innerHTML = '';
+    return;
+  }
+
+  container.innerHTML = servicosExtras.map((extra, i) => {
+    const cat = servicosCache.find(c => c.categoria === extra.servico);
+    const planos = cat?.itens || [];
+    return `
+      <div class="servico-extra-row">
+        <select onchange="updateServicoExtra(${i}, 'servico', this.value)">
+          ${servicosCache.map(c => `<option value="${escapeAttr(c.categoria)}" ${c.categoria === extra.servico ? 'selected' : ''}>${escapeHtml(c.categoria)}</option>`).join('')}
+        </select>
+        <select onchange="updateServicoExtra(${i}, 'plano', this.value)">
+          ${planos.map(item => `<option value="${escapeAttr(item.nome)}" ${item.nome === extra.plano ? 'selected' : ''}>${escapeHtml(item.nome)} — ${escapeHtml(item.preco || '')}</option>`).join('')}
+        </select>
+        <button type="button" class="remove-extra" onclick="removeServicoExtra(${i})" title="Remover"><i class="fas fa-times"></i></button>
+      </div>
+    `;
+  }).join('');
+}
+
+function parsePrice(preco) {
+  if (!preco) return 0;
+  const num = preco.replace(/[^0-9.,]/g, '').replace(',', '.');
+  return parseFloat(num) || 0;
+}
+
+function updateValorFromPlanos() {
+  const planoSelect = document.getElementById('apt-plano');
+  const valorInput = document.getElementById('apt-valor');
+  if (!planoSelect || !valorInput) return;
+
+  let total = 0;
+
+  const selectedOption = planoSelect.options[planoSelect.selectedIndex];
+  if (selectedOption) {
+    total += parsePrice(selectedOption.dataset.preco);
+  }
+
+  servicosExtras.forEach(extra => {
+    total += parsePrice(extra.preco);
+  });
+
+  valorInput.value = total > 0 ? '€' + total.toFixed(2) : '';
+  updateDepositField();
+  updateTikkieHint();
+}
+
+function updateTikkieHint() {
+  const hint = document.getElementById('apt-tikkie-hint');
+  const depositField = document.getElementById('apt-deposito');
+  if (!hint || !depositField) return;
+  const deposit = depositField.value;
+  if (deposit) {
+    hint.textContent = `Um link de pagamento Tikkie sera gerado para ${deposit} (deposito 50%).`;
+  } else {
+    hint.textContent = 'Um link de pagamento Tikkie sera gerado para metade do valor.';
+  }
 }
 
 async function renderAgenda() {
@@ -611,9 +771,30 @@ function openAppointmentModal(apt) {
   document.getElementById('apt-nome').value = apt ? apt.nome : '';
   document.getElementById('apt-whatsapp').value = apt ? apt.whatsapp || '' : '';
   document.getElementById('apt-servico').value = apt ? apt.servico : (servicosCache[0] || {}).categoria || '';
-  document.getElementById('apt-plano').value = apt ? apt.plano || '' : '';
+
+  populatePlanoSelect();
+
+  if (apt && apt.plano) {
+    const planoSelect = document.getElementById('apt-plano');
+    for (let i = 0; i < planoSelect.options.length; i++) {
+      if (planoSelect.options[i].value === apt.plano) {
+        planoSelect.selectedIndex = i;
+        break;
+      }
+    }
+  }
+
+  servicosExtras = (apt && apt.servicos_extras) ? [...apt.servicos_extras] : [];
+  renderServicosExtras();
+
   document.getElementById('apt-data').value = apt ? apt.data : new Date().toISOString().slice(0, 10);
-  document.getElementById('apt-hora').value = apt ? apt.hora || '' : '';
+
+  if (apt && apt.hora) {
+    loadAdminTimeSlots(apt.hora);
+  } else {
+    loadAdminTimeSlots();
+  }
+
   document.getElementById('apt-valor').value = apt ? apt.valor || '' : '';
   document.getElementById('apt-obs').value = apt ? apt.obs || '' : '';
   document.getElementById('apt-status').value = apt ? apt.status : 'aguardando_pagamento';
@@ -621,7 +802,7 @@ function openAppointmentModal(apt) {
   // Calculate deposit from valor
   updateDepositField();
 
-  // Tikkie info section
+  // Tikkie info section (editar)
   const tikkieSection = document.getElementById('apt-tikkie-info');
   if (isEdit && (apt.tikkie_payment_id || apt.tikkie_payment_url || apt.expira_em)) {
     tikkieSection.style.display = 'block';
@@ -631,6 +812,17 @@ function openAppointmentModal(apt) {
     document.getElementById('apt-pago-em').value = formatPagoEm(apt.pago_em);
   } else {
     tikkieSection.style.display = 'none';
+  }
+
+  // Tikkie create section (novo agendamento)
+  const tikkieCreate = document.getElementById('apt-tikkie-create');
+  if (tikkieCreate) {
+    if (!isEdit) {
+      tikkieCreate.style.display = 'block';
+      document.getElementById('apt-create-tikkie').checked = true;
+    } else {
+      tikkieCreate.style.display = 'none';
+    }
   }
 
   modal.classList.add('show');
@@ -644,13 +836,15 @@ function updateDepositField() {
 
 function closeAppointmentModal() {
   document.getElementById('modal-appointment').classList.remove('show');
+  servicosExtras = [];
+  renderServicosExtras();
 }
 
 async function saveAppointment() {
   const nome = document.getElementById('apt-nome').value.trim();
   const whatsapp = document.getElementById('apt-whatsapp').value.trim();
   const servico = document.getElementById('apt-servico').value;
-  const plano = document.getElementById('apt-plano').value.trim();
+  const plano = document.getElementById('apt-plano').value;
   const data = document.getElementById('apt-data').value;
   const hora = document.getElementById('apt-hora').value;
   const valor = document.getElementById('apt-valor').value.trim();
@@ -662,26 +856,47 @@ async function saveAppointment() {
     return;
   }
 
+  if (!hora) {
+    showToast('Selecione um horario disponivel', 'error');
+    return;
+  }
+
+  const payload = { nome, whatsapp, servico, plano, data, hora, obs, status, valor };
+  if (servicosExtras.length > 0) {
+    payload.servicos_extras = servicosExtras;
+  }
+
   const editId = document.getElementById('modal-appointment').dataset.editId;
+  const createTikkie = !editId && document.getElementById('apt-create-tikkie')?.checked;
   let res;
 
   try {
     if (editId) {
       res = await apiFetch('/agenda/' + editId, {
         method: 'PUT',
-        body: JSON.stringify({ nome, whatsapp, servico, plano, data, hora, obs, status, valor })
+        body: JSON.stringify(payload)
+      });
+    } else if (createTikkie) {
+      res = await apiFetch('/tikkie?action=create', {
+        method: 'POST',
+        body: JSON.stringify(payload)
       });
     } else {
       res = await apiFetch('/agenda', {
         method: 'POST',
-        body: JSON.stringify({ nome, whatsapp, servico, plano, data, hora, obs, status, valor })
+        body: JSON.stringify(payload)
       });
     }
 
     if (res.ok) {
+      const result = res.status !== 204 ? await res.json().catch(() => ({})) : {};
       closeAppointmentModal();
       await renderAgenda();
-      showToast(editId ? 'Agendamento atualizado!' : 'Agendamento criado!', 'success');
+      if (createTikkie && result.tikkie_url) {
+        showToast('Agendamento + Tikkie criados! Link copiado.', 'success');
+      } else {
+        showToast(editId ? 'Agendamento atualizado!' : 'Agendamento criado!', 'success');
+      }
     } else {
       if (res.status === 401) {
         showToast('Sessao expirada. Faca login novamente.', 'error');
@@ -829,6 +1044,30 @@ document.getElementById('filter-status').addEventListener('change', renderAgenda
 
 // Auto-calculate deposit when valor changes
 document.getElementById('apt-valor').addEventListener('input', updateDepositField);
+
+// When servico changes, populate plano dropdown and recalculate valor
+document.getElementById('apt-servico').addEventListener('change', () => {
+  populatePlanoSelect();
+  updateValorFromPlanos();
+});
+
+// When plano changes, recalculate valor
+document.getElementById('apt-plano').addEventListener('change', updateValorFromPlanos);
+
+// Add servico extra button
+document.getElementById('btn-add-servico-extra').addEventListener('click', addServicoExtra);
+
+// Load time slots when date changes
+document.getElementById('apt-data').addEventListener('change', () => loadAdminTimeSlots());
+
+// Update Tikkie hint when checkbox toggled
+const tikkieCheckbox = document.getElementById('apt-create-tikkie');
+if (tikkieCheckbox) {
+  tikkieCheckbox.addEventListener('change', function() {
+    const hint = document.getElementById('apt-tikkie-hint');
+    if (hint) hint.style.opacity = this.checked ? '1' : '0.4';
+  });
+}
 
 const btnRefreshAudit = document.getElementById('btn-refresh-audit');
 if (btnRefreshAudit) btnRefreshAudit.addEventListener('click', renderAuditLog);
