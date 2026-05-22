@@ -7,13 +7,13 @@ let authToken = null;
 
 // ========== AUTH (API) ==========
 
-async function apiLogin(password) {
+async function apiLogin(email, password) {
   const url = API_URL + '/auth/login';
   console.log('[LOGIN] POST', url);
   const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ password })
+    body: JSON.stringify({ email, password })
   });
   console.log('[LOGIN]', res.status, res.statusText);
   return res;
@@ -70,12 +70,14 @@ function showLogin(errorMsg) {
   document.getElementById('admin-panel').classList.remove('visible');
   const hint = document.getElementById('login-hint');
   const error = document.getElementById('login-error');
-  hint.textContent = 'Digite a senha para acessar o painel';
+  hint.textContent = 'Insira suas credenciais para acessar o painel';
   if (errorMsg) error.textContent = errorMsg;
   else error.textContent = '';
-  const input = document.getElementById('login-pass');
-  input.value = '';
-  input.focus();
+  const emailInput = document.getElementById('login-email');
+  const passInput = document.getElementById('login-pass');
+  emailInput.value = '';
+  passInput.value = '';
+  emailInput.focus();
 }
 
 async function showPanel() {
@@ -91,33 +93,37 @@ async function showPanel() {
   const filterEl = document.getElementById('filter-status');
   if (filterEl) filterEl.value = 'all';
   updatePanelUrl();
+  resetInactivityTimer();
   console.log('[PANEL] painel aberto!');
 }
 
 async function handleLogin() {
-  const input = document.getElementById('login-pass');
+  const emailInput = document.getElementById('login-email');
+  const passInput = document.getElementById('login-pass');
   const error = document.getElementById('login-error');
-  const pass = input.value.trim();
+  const email = emailInput.value.trim();
+  const pass = passInput.value.trim();
 
-  if (!pass) {
-    error.textContent = 'Digite a senha';
+  if (!email || !pass) {
+    error.textContent = 'Preencha email e senha';
     return;
   }
 
   try {
-    const res = await apiLogin(pass);
+    const res = await apiLogin(email, pass);
     const data = await res.json();
 
     if (res.ok && data.token) {
       authToken = data.token;
       sessionStorage.setItem('jvbeauty_token', authToken);
       error.textContent = '';
-      input.value = '';
+      emailInput.value = '';
+      passInput.value = '';
       showPanel();
     } else {
-      error.textContent = data.error || 'Senha incorreta';
-      input.value = '';
-      input.focus();
+      error.textContent = data.error || 'Email ou senha incorretos';
+      passInput.value = '';
+      passInput.focus();
     }
   } catch (err) {
     error.textContent = 'Erro de conexao. Verifique se o servidor esta rodando.';
@@ -127,6 +133,8 @@ async function handleLogin() {
 function handleLogout() {
   authToken = null;
   sessionStorage.removeItem('jvbeauty_token');
+  if (inactivityTimer) clearTimeout(inactivityTimer);
+  inactivityTimer = null;
   showLogin();
 }
 
@@ -175,6 +183,45 @@ async function handleChangePass() {
       showToast('Senha alterada com sucesso!', 'success');
     } else {
       error.textContent = data.error || 'Erro ao alterar senha';
+    }
+  } catch {
+    error.textContent = 'Erro de conexao';
+  }
+}
+
+async function handleChangeEmail() {
+  const currentPass = document.getElementById('email-current-pass').value.trim();
+  const newEmail = document.getElementById('email-new').value.trim();
+  const error = document.getElementById('email-error');
+
+  if (!currentPass || !newEmail) {
+    error.textContent = 'Preencha todos os campos';
+    return;
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)) {
+    error.textContent = 'Email invalido';
+    return;
+  }
+
+  try {
+    const res = await fetch(API_URL + '/auth/change-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + authToken
+      },
+      body: JSON.stringify({ current: currentPass, newEmail: newEmail })
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      document.getElementById('email-current-pass').value = '';
+      document.getElementById('email-new').value = '';
+      error.textContent = '';
+      showToast('Email alterado com sucesso!', 'success');
+    } else {
+      error.textContent = data.error || 'Erro ao alterar email';
     }
   } catch {
     error.textContent = 'Erro de conexao';
@@ -1009,6 +1056,24 @@ async function renderAuditLog() {
     `}).join('');
 }
 
+// ========== INACTIVITY AUTO-LOGOUT ==========
+const INACTIVITY_MS = 15 * 60 * 1000; // 15 minutes
+let inactivityTimer = null;
+
+function resetInactivityTimer() {
+  if (inactivityTimer) clearTimeout(inactivityTimer);
+  if (authToken) {
+    inactivityTimer = setTimeout(() => {
+      showToast('Sessao expirada por inatividade', 'warning');
+      handleLogout();
+    }, INACTIVITY_MS);
+  }
+}
+
+['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(evt => {
+  document.addEventListener(evt, resetInactivityTimer, { passive: true });
+});
+
 // ========== EVENT LISTENERS ==========
 
 document.getElementById('login-form').addEventListener('submit', function(e) {
@@ -1018,6 +1083,7 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
 
 document.getElementById('btn-logout').addEventListener('click', handleLogout);
 document.getElementById('btn-change-pass').addEventListener('click', handleChangePass);
+document.getElementById('btn-change-email').addEventListener('click', handleChangeEmail);
 document.getElementById('btn-add-category').addEventListener('click', addCategory);
 document.getElementById('btn-export').addEventListener('click', exportData);
 document.getElementById('btn-import').addEventListener('click', importData);

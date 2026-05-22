@@ -30,6 +30,10 @@ function recordAttempt(ip, success) {
   }
 }
 
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
 module.exports = async function handler(req, res) {
   setCorsHeaders(res, req);
   if (req.method === 'OPTIONS') return res.status(204).end();
@@ -40,17 +44,25 @@ module.exports = async function handler(req, res) {
     return res.status(429).json({ error: 'Muitas tentativas. Tente novamente em 15 minutos.' });
   }
 
-  const { password } = sanitizeObj(req.body, ['password']);
-  if (!password) return res.status(400).json({ error: 'Senha obrigatoria' });
+  const { email, password } = sanitizeObj(req.body, ['email', 'password']);
+  if (!email || !password) return res.status(400).json({ error: 'Email e senha obrigatorios' });
+  if (!isValidEmail(email)) return res.status(400).json({ error: 'Email invalido' });
 
   try {
     const row = await db.getPasswordHash();
-    if (!row || !row.hash) return res.status(500).json({ error: 'Erro interno: senha nao configurada' });
+    if (!row || !row.hash) return res.status(500).json({ error: 'Erro interno: conta nao configurada' });
+
+    // Check email match
+    const adminEmail = row.email || '';
+    if (adminEmail && email.toLowerCase() !== adminEmail.toLowerCase()) {
+      recordAttempt(ip, false);
+      return res.status(401).json({ error: 'Email ou senha incorretos' });
+    }
 
     const match = await bcrypt.compare(password, row.hash);
     if (!match) {
       recordAttempt(ip, false);
-      return res.status(401).json({ error: 'Senha incorreta' });
+      return res.status(401).json({ error: 'Email ou senha incorretos' });
     }
 
     const token = signToken({ user: 'admin', iat: Math.floor(Date.now() / 1000) });
