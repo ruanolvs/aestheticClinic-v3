@@ -1056,6 +1056,36 @@ async function renderAuditLog() {
     `}).join('');
 }
 
+// ========== GOOGLE OAUTH CALLBACK HANDLER ==========
+function handleOAuthCallback() {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('auth_token');
+  const authError = params.get('auth_error');
+
+  if (token) {
+    authToken = token;
+    sessionStorage.setItem('jvbeauty_token', authToken);
+    // Clean URL
+    window.history.replaceState({}, document.title, window.location.pathname);
+    showPanel();
+    return true;
+  }
+
+  if (authError) {
+    const messages = {
+      access_denied: 'Acesso negado pelo Google',
+      unauthorized_email: 'Email nao autorizado. Apenas o administrador pode acessar.',
+      no_code: 'Erro na autenticacao com Google',
+      internal_error: 'Erro interno. Tente novamente.'
+    };
+    showLogin(messages[authError] || 'Erro na autenticacao');
+    window.history.replaceState({}, document.title, window.location.pathname);
+    return true;
+  }
+
+  return false;
+}
+
 // ========== INACTIVITY AUTO-LOGOUT ==========
 const INACTIVITY_MS = 15 * 60 * 1000; // 15 minutes
 let inactivityTimer = null;
@@ -1142,6 +1172,9 @@ if (btnRefreshAudit) btnRefreshAudit.addEventListener('click', renderAuditLog);
 
 document.addEventListener('DOMContentLoaded', async () => {
   initTabs();
+
+  // Check if returning from Google OAuth callback
+  if (handleOAuthCallback()) return;
 
   const savedToken = sessionStorage.getItem('jvbeauty_token');
   if (savedToken) {
